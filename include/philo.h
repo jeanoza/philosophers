@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 10:43:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/03/31 09:31:27 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/03/31 11:13:08 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,5 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include "libft.h"
-
 
 #endif

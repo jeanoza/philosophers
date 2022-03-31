@@ -1,4 +1,4 @@
-# Pipex
+# Philosophers
 
 ## Resume
 
@@ -39,374 +39,76 @@ char *strerror(int errnum);
 
 ```
 
-### Theory
+### Subject
 
-- Basic Structure
+1. Only one action : eat | sleep | think
 
-  ```txt
-      infile                                             outfile
-  as stdin for cmd1                                 as stdout for cmd2
-        |                        PIPE                        ↑
-        |           |---------------------------|            |
-        ↓             |                       |              |
-        cmd1   -->    end[1]       ↔       end[0]   -->     cmd2
-                      |                       |
-              cmd1   |---------------------------|  end[0]
-            output                             reads end[1]
-          is written                          and sends cmd1
-            to end[1]                          output to cmd2
-        (end[1] becomes                      (end[0] becomes
-          cmd1 stdout)                           cmd2 stdin)
+   > - Les philosophes sont soit en train de manger, de penser ou de dormir.
+   >
+   > - Lorsqu’ils mangent, ils ne peuvent pas penser ou dormir.
+   >
+   > - Lorsqu’ils dorment, ils ne peuvent pas manger ou penser.
+   >
+   > - Enfin, lorsqu’ils pensent, ils ne peuvent pas manger ou dormir
 
-  ```
+2. Fork quantity == Philosophers number
 
-- Validation args
+   > - Il y a également des fourchettes sur la table.
+   >
+   > - Il y a <strong>autant de fourchettes que de philosophes</strong>
 
-  ```c
+3. Need TWO FORK to eat
 
-  static void	validation_args(int ac, char **av)
-  {
-    //FIXME: version if i don't do multiple fork()
-    if (ac != 5)
-    {
-      write(1, "usage: ./pipex infile \"cmd1\" \"cmd2\" outfile\n", 44);
-      exit (EXIT_FAILURE);
-    }
-    if (*(av[2]) == 0 || *(av[3]) == 0)
-    {
-      write(1, "Error: cmds can't be empty string\n", 34);
-      exit (EXIT_FAILURE);
-    }
+   > - Puisque servir et manger des spaghetti à l’aide d’une seule fourchette n’est pas chose facile
+   >
+   > - un philosophe prend la fourchette sur sa gauche et celle sur sa droite, soit une fourchette dans chaque main, afin de manger.
 
-    //FIXME: version multiple fork()
-    int	i;
+4. Eat -> sleep -> think
 
-    if (ac < 5)
-    {
-      write(1, "usage: ./pipex infile \"cmd1\" \"cmd2\" \"[cmd_n...]\" outfile\n", 57);
-      exit (EXIT_FAILURE);
-    }
-    i = 2;
-    while (i < ac - 1)
-    {
-      if (*(av[i]) == 0)
-      {
-        write(1, "Error: cmds can't be empty string\n", 34);
-        exit (EXIT_FAILURE);
-      }
-      ++i;
-    }
-  }
+   > - D'abord, chaque philosopher doit commencer par manger
+   >
+   > - Quand un philosophe a fini de manger, il repose les fourchettes sur la table et se met à dormir.
+   >
+   > - Une fois réveillé, il se remet à penser.
+   >
+   > - La simulation prend fin si un philosophe meurt de faim.
 
-  ```
+5. ETC.
 
-- Variables in structure to use like "global"
+   > - Chaque philosophe a besoin de manger et ne doit pas mourir de faim.
+   >
+   > - Les philosophes ne communiquent pas entre eux.
+   >
+   > - Les philosophes ne peuvent pas savoir si l’un d’entre eux est sur le point de mourir.
+   >
+   > - Inutile de préciser que les philosophes ne doivent pas mourir !
 
-  ```c
+### Program
 
-  /* */
-  char  **paths;
-  char  **cmds;
-  int   pipe_fd[2];
-  CMD(optionnel)
-
-
-  ```
-
-- Environ variable print
-
-  ```c
-
-  int main(void)
-  {
-    char **ptr;
-    extern char **environ;k
-
-    ptr = environ;
-    while (*ptr != 0)
-    {
-    printf("ptr:%s\n", *ptr);
-    ++ptr;
-    }
-  }
-
-  ```
-
-- FORK && PID Example
-
-  ```c
-  //one child && one parent
-  int main()
-  {
-    int pid;
-    pid = fork();
-    if(pid ==0)
-      printf("[Child] : Hello, world pid=%d\n",getpid());
-    else
-      printf("[Parent] : Hello, world pid=%d\n",getpid());
-
-    //output called : [Parent] -> [Child]
-    //[Parent] : Hello, world pid=72176
-    //[Child] : Hello, world pid=72192
-  }
-
-  //multiple children
-  int main()
-  {
-    int pid1, pid2;
-    pid1 = fork();
-    if (pid1 == 0) {
-      printf("[Child1] : Hello, world ! pid=%d\n",getpid());
-      exit(0);
-    }
-    pid2 = fork();
-    if (pid2 == 0) {
-      printf("[Child2] : Hello, world ! pid=%d\n",getpid());
-      exit(0);
-    }
-    else {
-      printf("[Parent]: Hello, world ! pid=%d\n", getpid());
-      exit(0);
-    }
-
-    //output called : [Parent] -> [Child 1] -> [Child 2]....
-    // [Parent]: Hello, world ! pid=81955
-    // [Child1] : Hello, world ! pid=81956
-    // [Child2] : Hello, world ! pid=81957
-  }
-
-  //fork wait
-  int main(void)
-  {
-    int pid, child, status;
-
-    printf("[%d] Parent start\n", getpid());
-    pid = fork();
-    if (pid == 0)
-    {
-      printf("[%d] Child start\n", getpid());
-      exit(1);
-    }
-
-    child = wait(&status);
-    printf("[%d] Child[%d(status:%d)] end\n", getpid(), child, status);
-    printf("\tCode exit:%d\n", status >> 8);
-  }
-  //[76677] Parent start
-  //[76678] Child start
-  //[76677] Child[76678(status:256)] end
-  //        Code exit:1
-  ```
-
-- `waitpid()`
-
-  ```c
-  /*
-   * pid == -1: the call waits for any child process. (USE THIS in pipex)
-   * pid == 0, the call waits for any child process in the process group of the caller.
-   * pid > 0, the call waits for THE PROCESS with process id pid
-   * pid < -1, the call waits for any process whose process GROUP id equals the absolute value of pid.
-   */
-  pid_t waitpid(pid_t pid, int *stat_loc, int options);
-
-  ```
-
-  - test code
-
-    ```c
-    int main(void)
-    {
-      int pid;
-      int status;
-      int i;
-
-      i = 0;
-      printf("start getpid():%d\n", getpid());
-      for (i = 0; i < 10;++i)
-      {
-        pid = fork();
-        if (pid == 0)
-        {
-          printf("child getpid():%d - i:%d\n", getpid(), i);
-          exit(1);
-        }
-      }
-      if (pid > 0)
-      {
-        waitpid(-1, &status, 0);
-        printf("parent pid:%d getpid():%d - i:%d\n", pid, getpid(), i);
-        exit(99);
-
-      }
-      printf("out");
-
-      return (0);
-
-      //start getpid():49722
-      //child getpid():49723 - i:0
-      //child getpid():49724 - i:1
-      //child getpid():49725 - i:2
-      //child getpid():49726 - i:3
-      //child getpid():49727 - i:4
-      //child getpid():49728 - i:5
-      //child getpid():49729 - i:6
-      //child getpid():49730 - i:7
-      //child getpid():49731 - i:8
-      //parent pid:49732 getpid():49722 - i:10 !! important -> that (i == 10 && pid == 49732) means parent execute after last child!
-      //child getpid():49732 - i:9
-    }
-
-    ```
-
-- `dup2()`
-
-  ```c
-  /*
-   * close fildes2 and copy fd1 to fd2 location.
-   * return: fd value if success, else -1
-   */
-  int dup2(int fildes, int fildes2);
-  ```
-
-- File Descriptor
-
-  ```
-                         -----------------
-               0         |     stdin     |
-                         -----------------
-               1         |     stdout    |
-                         -----------------
-               2         |     stderr    |
-                         -----------------
-               3         |     infile    |  // open()
-                         -----------------
-               4         |     outfile   |  // open()
-                         -----------------
-               5         |     end[0]    |
-                         -----------------
-               6         |     end[1]    |
-                         -----------------
-  ```
-
-  to
-
-  ```
-                         -----------------
-               0         |     infile *  |  (x stdin closed)
-                         -----------------
-               1         |     end[1] *  |  (x stdout closed)
-                         -----------------
-               2         |     stderr    |
-                         -----------------
-               3         |     infile    |
-                         -----------------
-               4         |     outfile   |
-                         -----------------
-               5         |     end[0]    |
-                         -----------------
-               6         |     end[1]    |
-                         -----------------            *duplicated
-  ```
-
-### etc...
-
-- Args
-
-  > - av[1] = input path(stdin)
-  > - av[2] = cmd1
-  > - av[3] = cmd2
-  > - av[4] = output path(stdout)
-
-  <br/>
-
-- Redirection
-
-  > - stdout
-  >
-  >   - `> _FILE_PATH` :
-  >     - if no file => create
-  >     - else => override
-  >   - `>> _FILE_PATH` :
-  >     - if no file => create
-  >     - else => add at the finish line
-  >
-  > - stdin
-  >   - `< _FILE_PATH` :
-  >     - if no file => Error (ex: zsh: no such file or directory: \_FILE_PATH)
-  >     - else => read this.\_FILE_PATH
-  >   - `<< _LIMITER` : write `heredoc>`(here document), until `this._LIMITER` called
-  >
-  > <br/>cf: `write "Hello world!" and "Bonjour a tous!" then save in 'output'`
+- Arguments
 
   ```bash
-  <<END cat > output
-
-  heredoc> Hello world!
-  heredoc> Bonjour a tous!
-  heredoc> END
-
+  ./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]
   ```
 
-- variable env
-  ```c
-  int main(int ac, char **av, char **env)
-  {
-    (void)ac;
-    (void)av;
-    int	i;
-    i = 0;
-    while (env && env[i])
-    {
-      printf("env[%d]:%s\n", i, env[i]);
-      ++i;
-    }
-    return (0);
-  }
-  /*
-  env[0]:TERM_PROGRAM=vscode
-  env[1]:_P9K_TTY=/dev/ttys001
-  env[2]:TERM=xterm-256color
-  env[3]:SHELL=/bin/zsh
-  env[4]:TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n0004yww0017q7/T/
-  env[5]:Apple_PubSub_Socket_Render=/private/tmp/com.apple.launchd.I8RG0ULyuK/Render
-  env[6]:TERM_PROGRAM_VERSION=1.63.2
-  env[7]:TERM_SESSION_ID=w0t0p0:5859BD2F-32C5-4656-BAE5-9F7C7A7EDDEC
-  env[8]:ZSH=/Users/kychoi/.oh-my-zsh
-  env[9]:USER=kychoi
-  env[10]:SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.OF6Xd2rUot/Listeners
-  env[11]:__CF_USER_TEXT_ENCODING=0x9EE7:0x0:0x0
-  env[12]:PAGER=less
-  env[13]:LSCOLORS=Gxfxcxdxbxegedabagacad
-  env[14]:PATH=/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/munki
-  env[15]:PWD=/Users/kychoi/Documents/pipex
-  env[16]:P9K_SSH=0
-  env[17]:P9K_TTY=old
-  env[18]:LANG=en_US.UTF-8
-  env[19]:ITERM_PROFILE=Default
-  env[20]:XPC_FLAGS=0x0
-  env[21]:XPC_SERVICE_NAME=0
-  env[22]:SHLVL=3
-  env[23]:HOME=/Users/kychoi
-  env[24]:COLORFGBG=7;0
-  env[25]:LC_TERMINAL_VERSION=3.4.2
-  env[26]:ITERM_SESSION_ID=w0t0p0:5859BD2F-32C5-4656-BAE5-9F7C7A7EDDEC
-  env[27]:LESS=-R
-  env[28]:LOGNAME=kychoi
-  env[29]:LC_TERMINAL=iTerm2
-  env[30]:DISPLAY=/private/tmp/com.apple.launchd.n13OzKa5Jd/org.macosforge.xquartz:0
-  env[31]:COLORTERM=truecolor
-  env[32]:APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
-  env[33]:ORIGINAL_XDG_CURRENT_DESKTOP=undefined
-  env[34]:VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n0004yww0017q7/T/vscode-git-775b965e9d.sock
-  env[35]:GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
-  env[36]:VSCODE_GIT_ASKPASS_NODE=/Applications/Visual Studio Code.app/Contents/MacOS/Electron
-  env[37]:VSCODE_GIT_ASKPASS_EXTRA_ARGS=--ms-enable-electron-run-as-node
-  env[38]:VSCODE_GIT_ASKPASS_MAIN=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
-  env[39]:OLDPWD=/Users/kychoi/Documents/pipex
-  env[40]:_=/Users/kychoi/Documents/pipex/./pipex
-  */
-  ```
+  - number_of_philosophers : Le nombre de philosophes, mais aussi le nombre de fourchettes.
 
-### References:
+  - time_to_die (en millisecondes) :Si un philosophe n’a pas commencé à manger time_to_die millisecondes après le début de son précédent repas ou depuis le début de la simulation, il meurt.
 
-- [pipex-tutorial-42](https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901)
+  - time_to_eat (en millisecondes) : Le temps qu’un philosophe prend à manger. Pendant ce temps, un philosophe doit garder ses deux fourchettes.
+
+  - time_to_sleep (en millisecondes) : Le temps qu’un philosophe passe à dormir.
+
+  - number_of_times_each_philosopher_must_eat (argument optionnel) :
+    - Si tous les philosophes ont mangé au moins number_of_times_each_philosopher_must_eat fois, la simulation prend fin.
+    - Si cet argument n’est pas spécifié, alors la simulation prend fin à la mort d’un philosophe.
+
+- Assign number to each philosophers
+
+  - Chaque philosophe se voit assigner un numéro entre 1 et `number_of_philosophers`.
+
+  - Le philosophe numéro 1 est assis à côté du philosophe numéro `number_of_philosophers`.
+
+  - Les autres suivent cette logique : philosophe numéro `N` est assis entre philosophe numéro `N - 1` et philosophe numéro `N + 1`.
+
+### Theory
