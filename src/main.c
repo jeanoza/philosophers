@@ -6,16 +6,39 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/03/31 09:32:50 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/03/31 17:26:05 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+
+int	parsing(int ac, char **av)
+{
+	int	i;
+
+	if (ac < 5 || ac > 6)
+		return (0);
+	i = 0;
+	while (av && av[i])
+	{
+		//TODO: add args condition au fur et a mesure
+		++i;
+	}
+	return (1);
+}
+
 int	main(int ac, char **av)
 {
+	int			philo_num;
+
 	(void)ac;
 	(void)av;
-	printf("init philo!\n");
+
+	// if (!parsing(ac, av))
+	// 	return (0);
+	// philo_num = ft_atoi(av[1]);
+
+
 	return (0);
 }

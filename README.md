@@ -83,7 +83,7 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 - Arguments
 
-  ```bash
+  ```sh
   ./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]
   ```
 
@@ -108,3 +108,28 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
   - Les autres suivent cette logique : philosophe numéro `N` est assis entre philosophe numéro `N - 1` et philosophe numéro `N + 1`.
 
 ### Theory
+
+```c
+
+#include <sys/time.h>
+#include <stdio.h>
+int	main(void)
+{
+	struct timeval	current_time;
+	int				ms1;
+	int				ms2;
+	int				i;
+
+	gettimeofday(&current_time, NULL);
+	ms1 = current_time.tv_usec;
+	i = 0;
+	while (i < 999)
+		++i;
+	gettimeofday(&current_time, NULL);
+	ms2 = current_time.tv_usec;
+	printf("ms1:%d ms2:%d\n", ms1, ms2);
+
+	return (0);
+}
+
+```
