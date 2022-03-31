@@ -2,14 +2,14 @@
 
 ## Resume
 
-### Goal : imitate exactly `pipe` of terminal.
+### Goal : make all philosophers to eat with 2 fork.
 
 ### Library && Function autorized
 
 ```c
 /* unistd.h */
-ssize_t write(int fildes, const void *buf, size_t nbyte);
-int		usleep(useconds_t microseconds);
+ssize_t  write(int fildes, const void *buf, size_t nbyte);
+int      usleep(useconds_t microseconds);
 
 /* stdlib.h */
 int		malloc(size_t size);
@@ -133,3 +133,7 @@ int	main(void)
 }
 
 ```
+
+### Reference
+
+- mutex : https://www.delftstack.com/fr/howto/c/mutex-in-c/
