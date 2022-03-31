@@ -8,34 +8,30 @@
 
 ```c
 /* unistd.h */
-int		close(int fildes);
-ssize_t read(int fildes, void *buf, size_t nbyte);
 ssize_t write(int fildes, const void *buf, size_t nbyte);
-int		access(const char *path, int mode);
-int		dup(int fildes);
-int		dup2(int fildes, int fildes2);
-int		execve(const char *path, char *const argv[], char *const envp[]);
-pid_t	fork(void); // create new process
-int		pipe(int fildes[2]);
-int		unlink(const char *path);
-
-/* sys/wait.h */
-pid_t	wait(int *stat_loc);
-pid_t	waitpid(pid_t pid, int *stat_loc, int options);
-
-/* fcntl.h */
-int		open(const char *path, int oflag, ...);
+int		usleep(useconds_t microseconds);
 
 /* stdlib.h */
 int		malloc(size_t size);
-void	free(void *ptr);
-void	exit(int status);
+void    free(void *ptr);
 
 /* stdio.h */
-void	perror(const char *s);
+int		printf(const char *restrict format, ...);
 
 /* string.h */
-char *strerror(int errnum);
+void	*memset(void *b, int c, size_t len);
+
+/* sys/time.h */
+int		gettimeofday(struct timeval *restrict tp, void *restrict tzp);
+
+/* pthread.h */
+int		pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
+int		pthread_datach(pthread_t thread);
+int		pthread_join(pthread_t thread, void **value_ptr);
+int		pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
+int		pthread_mutex_destroy(pthread_mutex_t *mutex);
+int		pthread_mutex_lock(pthread_mutex_t *mutex);
+int		pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 ```
 
