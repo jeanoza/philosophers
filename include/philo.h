@@ -19,9 +19,15 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-// typedef struct s_philo
-// {
-// }	t_philo
+typedef struct s_philo
+{
+	int		nb_forks;
+	int		nb_philos;
+	int		ms_die;
+	int		ms_eat;
+	int		ms_sleep;
+	int		nb_must_eat;
+}	t_philo;
 
 int	ft_strlen(char *str);
 int	ft_atoi(char *str);

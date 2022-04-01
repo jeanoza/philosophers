@@ -25,7 +25,8 @@ void	*memset(void *b, int c, size_t len);
 int		gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 
 /* pthread.h */
-int		pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
+int		pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+            void *(*start_routine)(void *), void *arg);
 int		pthread_datach(pthread_t thread);
 int		pthread_join(pthread_t thread, void **value_ptr);
 int		pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
@@ -109,31 +110,91 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 ### Theory
 
-```c
+- gettiemofday()
+   ```c
 
-#include <sys/time.h>
-#include <stdio.h>
-int	main(void)
-{
-	struct timeval	current_time;
-	int				ms1;
-	int				ms2;
-	int				i;
+   #include <sys/time.h>
+   #include <stdio.h>
+   int	main(void)
+   {
+      struct timeval	current_time;
+      int				ms1;
+      int				ms2;
+      int				i;
 
-	gettimeofday(&current_time, NULL);
-	ms1 = current_time.tv_usec;
-	i = 0;
-	while (i < 999)
-		++i;
-	gettimeofday(&current_time, NULL);
-	ms2 = current_time.tv_usec;
-	printf("ms1:%d ms2:%d\n", ms1, ms2);
+      gettimeofday(&current_time, NULL);
+      ms1 = current_time.tv_usec;
+      i = 0;
+      while (i < 999)
+         ++i;
+      gettimeofday(&current_time, NULL);
+      ms2 = current_time.tv_usec;
+      printf("ms1:%d ms2:%d\n", ms1, ms2);
 
-	return (0);
-}
+      return (0);
+   }
+   //ms1:204330 ms2:204332
 
-```
+   ```
+- mutex
+   1. pthread_mutex_lock(), pthread_mutex_unlock()
+      ```c
+      //Mutex examples...
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include <pthread.h>
+      #include <unistd.h>
+
+      #ifndef NUM_THREADS
+      #define NUM_THREADS 4
+      #endif
+
+
+      typedef struct s_test {
+         pthread_mutex_t mutex;
+         int				value;
+      }	t_test;
+
+      void *func3(void* param)
+      {
+         pthread_mutex_lock(&(((t_test*)param)->mutex));
+         printf("Incrementing the shared variable...\n");
+         for (int i = 0; i < 10000; ++i) {
+            ((t_test*)param)->value += 1;
+         }
+         pthread_mutex_unlock(&(((t_test*)param)->mutex));
+         return 0;
+      }
+
+      int main()
+      {
+         pthread_t threads[NUM_THREADS];
+         t_test	test;
+         test.value = 0;
+         test.mutex = (pthread_mutex_t) PTHREAD_MUTEX_INITIALIZER;
+
+
+         for (int i = 0; i < NUM_THREADS; ++i) {
+            pthread_create(&threads[i], NULL, func3, &test);
+         }
+
+         for (int i = 0; i < NUM_THREADS; ++i) {
+            pthread_join(threads[i], NULL);
+         }
+
+         printf("%d\n", test.value);
+         exit(EXIT_SUCCESS);
+      }
+      // Incrementing the shared variable...
+      // Incrementing the shared variable...
+      // Incrementing the shared variable...
+      // Incrementing the shared variable...
+      // 37796 -> if there are NOT pthread_mutex_lock() && pthread_mutex_unlock()
+      // 40000 -> if there are... : these two functions make wait all operations.
+
+      ```
+
 
 ### Reference
 
-- mutex : https://www.delftstack.com/fr/howto/c/mutex-in-c/
+- mutex(lock && unlock): https://www.delftstack.com/fr/howto/c/mutex-in-c/
