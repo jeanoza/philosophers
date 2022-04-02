@@ -6,7 +6,7 @@
 /*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:11:33 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/02 17:13:39 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/02 19:04:59 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 static void	put_val(t_philo *philo, int i, int current)
 {
 	if (i == 1)
-	{
-		philo->nb_forks = current;
 		philo->nb_philos = current;
-	}
 	else if (i == 2)
 		philo->ms_die = current;
 	else if (i == 3)
