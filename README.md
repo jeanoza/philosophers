@@ -111,33 +111,37 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
 ### Theory
 
 - gettiemofday()
-   ```c
 
-   #include <sys/time.h>
-   #include <stdio.h>
-   int	main(void)
-   {
-      struct timeval	current_time;
-      int				ms1;
-      int				ms2;
-      int				i;
+  ```c
 
-      gettimeofday(&current_time, NULL);
-      ms1 = current_time.tv_usec;
-      i = 0;
-      while (i < 999)
-         ++i;
-      gettimeofday(&current_time, NULL);
-      ms2 = current_time.tv_usec;
-      printf("ms1:%d ms2:%d\n", ms1, ms2);
+  #include <sys/time.h>
+  #include <stdio.h>
+  int	main(void)
+  {
+     struct timeval	current_time;
+     int				ms1;
+     int				ms2;
+     int				i;
 
-      return (0);
-   }
-   //ms1:204330 ms2:204332
+     gettimeofday(&current_time, NULL);
+     ms1 = current_time.tv_usec;
+     i = 0;
+     while (i < 999)
+        ++i;
+     gettimeofday(&current_time, NULL);
+     ms2 = current_time.tv_usec;
+     printf("ms1:%d ms2:%d\n", ms1, ms2);
 
-   ```
+     return (0);
+  }
+  //ms1:204330 ms2:204332
+
+  ```
+
 - mutex
-   1. pthread_mutex_lock(), pthread_mutex_unlock()
+
+  1.  pthread_mutex_lock(), pthread_mutex_unlock()
+
       ```c
       //Mutex examples...
       #include <stdio.h>
@@ -194,7 +198,8 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
 
       ```
 
-
 ### Reference
+
+- gettimeofday: https://linuxhint.com/gettimeofday_c_language/
 
 - mutex(lock && unlock): https://www.delftstack.com/fr/howto/c/mutex-in-c/

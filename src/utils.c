@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/03/31 16:22:01 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/02 11:41:06 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_atoi(char *str)
 
 	i = 0;
 	sign = 1;
+	res = 0;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')

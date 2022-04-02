@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/01 13:48:38 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/02 11:41:18 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,25 @@
 int	parsing(int ac, char **av, t_philo *philo)
 {
 	int	i;
-	int	cur;
 
 	if (ac < 5 || ac > 6)
 		return (0);
 	i = 0;
 	while (av && av[++i])
 	{
-		cur = ft_atoi(av[i]);
-		if (!cur || )
-			return (0);
 		if (i == 1)
 		{
-			philo->nb_forks = cur;
-			philo->nb_philos = cur;
+			philo->nb_forks = ft_atoi(av[i]);
+			philo->nb_philos = ft_atoi(av[i]);
 		}
 		else if (i == 2)
-			philo->ms_die = cur;
+			philo->ms_die = ft_atoi(av[i]);
 		else if (i == 3)
-			philo->ms_eat = cur;
+			philo->ms_eat = ft_atoi(av[i]);
 		else if (i == 4)
-			philo->ms_sleep = cur;
+			philo->ms_sleep = ft_atoi(av[i]);
 		else if (i == 5)
-			philo->nb_must_eat = cur;
+			philo->nb_must_eat = ft_atoi(av[i]);
 	}
 	return (1);
 }
