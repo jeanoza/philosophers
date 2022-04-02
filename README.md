@@ -108,6 +108,15 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
 
   - Les autres suivent cette logique : philosophe numéro `N` est assis entre philosophe numéro `N - 1` et philosophe numéro `N + 1`.
 
+- Output
+   ```bash
+   <timestamp_in_ms> <X> has taken a fork
+   <timestamp_in_ms> <X> is eating
+   <timestamp_in_ms> <X> is sleeping
+   <timestamp_in_ms> <X> is thinking
+   <timestamp_in_ms> <X> died
+   ```
+
 ### Theory
 
 - gettiemofday()

@@ -6,7 +6,7 @@
 /*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/02 20:48:09 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/02 22:11:04 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,6 @@ void	init(t_philo *philo)
 		philo->persons[i] = 0;
 	}
 }
-
-void	*func_ex(void *param)
-{
-	pthread_mutex_lock(&((t_philo *)param)->mutex);
-	printf("hello\n");
-
-	//TODO: put algo philo(odd/even)
-	pthread_mutex_unlock(&((t_philo *)param)->mutex);
-	return (0);
-}
 // /*
 //  * av[1] = number_of_philosopers
 //  * av[2] = time_to_die
@@ -54,12 +44,15 @@ int	main(int ac, char **av)
 	t_philo		philo;
 	int			i;
 	pthread_t	*threads;
+	struct timeval	time;
+
 
 	memset(&philo, 0, sizeof(philo));
 	if (!parsing(ac, av, &philo))
 		return (0);
 	init(&philo);
-
+	if (gettimeofday(&time, NULL) == 0)
+		philo.ms = time.tv_usec;
 	threads = malloc(sizeof(pthread_t) * philo.nb_philos);
 	if (!threads)
 		return (1);
@@ -67,7 +60,7 @@ int	main(int ac, char **av)
 	pthread_mutex_init(&philo.mutex, NULL);
 	i = -1;
 	while (++i < philo.nb_philos)
-		pthread_create(&threads[i], NULL, func_ex, &philo);
+		pthread_create(&threads[i], NULL, algo, &philo);
 	i = -1;
 	while (++i < philo.nb_philos)
 		pthread_join(threads[i], NULL);

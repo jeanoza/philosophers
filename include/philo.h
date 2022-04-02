@@ -6,7 +6,7 @@
 /*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/02 19:44:21 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/02 22:18:58 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@
  * persons[i]: 0 => default, 1 => after eat, 2 => after sleep, 3 => after think
  */
 typedef struct s_philo {
-	int				nb_philos;
-	int				ms_die;
-	int				ms_eat;
-	int				ms_sleep;
-	int				nb_must_eat;
-	int				*forks;
-	int				*persons;
+	int	nb_philos;
+	int	ms_die;
+	int	ms_eat;
+	int	ms_sleep;
+	int	nb_must_eat;
+	int	i;
+	int	ms;
+	int	*forks;
+	int	*persons;
 	pthread_mutex_t	mutex;
 }	t_philo;
 
@@ -38,4 +40,12 @@ int	ft_strlen(char *str);
 int	ft_atoi(char *str);
 int	parsing(int ac, char **av, t_philo *philo);
 
+/* algo.c */
+void	*algo(void *param);
+
+/* actions.c */
+void	take_fork(t_philo *philo);
+void	eating(t_philo *philo);
+void	sleeping(t_philo *philo);
+void	thinking(t_philo *philo);
 #endif
