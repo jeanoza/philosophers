@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/02 12:51:19 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/02 16:31:58 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 int	ft_strlen(char *str)
 {

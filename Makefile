@@ -4,6 +4,7 @@ SRC_PATH	=	./src/
 
 SRCS		=	main.c \
 				utils.c \
+				parse.c \
 
 OBJ_PATH	=	./bin/
 
