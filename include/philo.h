@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/02 22:18:58 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/04 20:08:40 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <string.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+typedef struct s_person {
+	int	status;
+	int	ms_to_die;
+}	t_person;
 
 /*
  * forks[i]: 0 => non-available, 1 => available
@@ -36,6 +41,7 @@ typedef struct s_philo {
 	pthread_mutex_t	mutex;
 }	t_philo;
 
+
 int	ft_strlen(char *str);
 int	ft_atoi(char *str);
 int	parsing(int ac, char **av, t_philo *philo);
@@ -48,4 +54,5 @@ void	take_fork(t_philo *philo);
 void	eating(t_philo *philo);
 void	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
+int		get_ms(int ms);
 #endif
