@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 21:34:39 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/04 20:34:24 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/07 12:06:29 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	case_odd(t_philo *philo)
 {
+	// printf("case_odd(i:%d)\n", philo->i);
 	while (philo->persons[philo->i] < 4)
 	{
 		if (philo->persons[philo->i] < 1
@@ -23,25 +24,24 @@ static void	case_odd(t_philo *philo)
 			eating(philo);
 		else if (philo->persons[philo->i] == 2)
 			sleeping(philo);
-		else
-			return ;
+		else return;
 	}
 }
 static void	case_even(t_philo *philo)
 {
+	// printf("case_even(i:%d)\n", philo->i);
 	if (philo->forks[philo->i] == 1 && philo->forks[philo->i + 1] == 1)
 		take_fork(philo);
 }
 
 void	*algo(void *param)
 {
-	// pthread_mutex_lock(&((t_philo *) param)->mutex);
-	//TODO: put algo philo(odd/even)
-	if (((t_philo *) param)->nb_philos % 2 == 1)
+	if (((t_philo *) param)->i % 2 == 0)
 		case_odd(((t_philo *) param));
 	else
 		case_even(((t_philo *) param));
-	++((t_philo *) param)->i;
-	// pthread_mutex_unlock(&((t_philo *) param)->mutex);
+   	pthread_mutex_lock(&(((t_philo*)param)->mutex));
+	((t_philo *) param)->i += 1;
+   	pthread_mutex_unlock(&(((t_philo*)param)->mutex));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/02 22:11:04 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/07 12:02:17 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,14 @@ int	main(int ac, char **av)
 	i = -1;
 	while (++i < philo.nb_philos)
 		pthread_join(threads[i], NULL);
-
-	
+	return (0);
+}
 	//FIXME: when use this two functions...?
 	// i = -1;
 	// while (++i < philo.nb_philos)
 	// 	pthread_detach(threads[i]);
 	// pthread_mutex_destroy(&philo.mutex);
 
-	return (0);
-}
 // // FIXME: verify parsing result.
 // printf("nb_philos: %d\n", philo.nb_philos);
 // printf("ms_die: %d\n", philo.ms_die);
