@@ -12,33 +12,27 @@
 
 #include "philo.h"
 
-static void	case_odd(t_philo *philo)
+static void	case_odd(t_philo *philo, int nth)
 {
-	printf("case_odd(i:%d)\n", philo->i);
 	while (1)
 	{
-		take_fork(philo);
-		eating(philo);
-		return ;
+		take_fork(philo, nth);
+		eating(philo, nth);
+		return;
 	}
 }
-static void	case_even(t_philo *philo)
+static void	case_even(t_philo *philo, int nth)
 {
-	printf("case_even(i:%d)\n", philo->i);
-	while (1)
-	{
-		take_fork(philo);
-		eating(philo);
-		return ;
-	}
+	// while (1)
+	// {
+	// 	take_fork(philo, nth);
+	// 	eating(philo);
+	// 	return ;
+	// }
 }
 
 void	*algo(void *param)
 {
-	printf("algo:%d\n", ((t_philo *) param)->i);
-	if (((t_philo *) param)->i % 2 == 0)
-		case_odd(((t_philo *) param));
-	else
-		case_even(((t_philo *) param));
+	case_odd((t_philo *) param, ((t_philo *) param)->i);
 	return (0);
 }

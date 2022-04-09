@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/09 16:58:57 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/09 22:01:48 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init(t_philo *philo)
 	int	i;
 
 	philo->persons = malloc(sizeof(t_person) * philo->nb_philos);
+
 	if (!philo->persons)
 		return ;
 	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->nb_philos);
@@ -26,8 +27,12 @@ void	init(t_philo *philo)
 		return ;
 	}
 	i = -1;
-	// while (++i < philo->nb_philos)
-	// 	philo->persons[i] = 0;
+	while (++i < philo->nb_philos)
+	{
+		philo->persons[i].fork1 = i;
+		philo->persons[i].fork2 = (i + 1) % (philo->nb_philos);
+	}
+		
 }
 // /*
 //  * av[1] = number_of_philosopers
@@ -52,14 +57,16 @@ int	main(int ac, char **av)
 	pthread_mutex_init(&philo.display, NULL);
 	i = -1;
 	while (++i < philo.nb_philos)
+		pthread_mutex_init(&(philo.forks[i]), NULL);
+	i = -1;
+	while (++i < philo.nb_philos)
 	{
 		philo.i = i;
-		pthread_mutex_init(&(philo.forks[i]), NULL);
 		pthread_create(&philo.persons[i].thread, NULL, algo, &philo);
 	}
 	i = -1;
 	while (++i < philo.nb_philos)
-		pthread_join(&philo.persons[i].thread, NULL);
+		pthread_join(philo.persons[i].thread, NULL);
 	return (0);
 }
 	//FIXME: when use this two functions...?

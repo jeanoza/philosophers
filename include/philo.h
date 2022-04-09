@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/09 16:50:15 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/09 22:03:30 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 
 typedef struct s_person {
 	int			status;
-	int			ms_to_die;
+	// int			ms_to_die;
+	int			fork1;
+	int			fork2;
 	pthread_t	thread;
 }	t_person;
 
@@ -51,8 +53,8 @@ int	parsing(int ac, char **av, t_philo *philo);
 void	*algo(void *param);
 
 /* actions.c */
-void	take_fork(t_philo *philo);
-void	eating(t_philo *philo);
+void	take_fork(t_philo *philo, int nth);
+void	eating(t_philo *philo, int nth);
 void	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
 int		get_ms(int ms);
