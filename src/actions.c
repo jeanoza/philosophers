@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 21:39:19 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/07 13:09:22 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/09 16:31:47 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,24 @@ int	get_ms(int ms)
 
 void	take_fork(t_philo *philo)
 {
-	philo->forks[philo->i] = 0;
-	philo->forks[philo->i + 1] = 0;
-	philo->persons[philo->i] = 1;
-	printf("%d %d has taken a fork(i:%d).\n", get_ms(philo->ms), philo->i + 1, philo->i);
+	pthread_mutex_lock(&philo->display);
+	pthread_mutex_lock(&philo->forks[philo->i]);
+	printf("%d %d has taken a fork(i:%d) .\n", get_ms(philo->ms), philo->i + 1, philo->i);
+	pthread_mutex_unlock(&philo->display);
+	pthread_mutex_lock(&philo->display);
+	pthread_mutex_lock(&philo->forks[philo->i + 1]);
+	printf("%d %d has taken a fork(i:%d) .\n", get_ms(philo->ms), philo->i + 1, philo->i);
+	pthread_mutex_unlock(&philo->display);
 }
 
 void	eating(t_philo *philo)
 {
-	philo->persons[philo->i] = 2;
-	printf("%d %d has is eating.(i:%d)\n", get_ms(philo->ms), philo->i + 1, philo->i);
+	printf("%d %d has is eating.(i:%d) \n", get_ms(philo->ms), philo->i + 1, philo->i);
+	pthread_mutex_unlock(&philo->forks[philo->i]);
+	pthread_mutex_unlock(&philo->forks[philo->i + 1]);
 }
 void	sleeping(t_philo *philo)
 {
-	philo->persons[philo->i] = 3;
-	philo->forks[philo->i] = 1;
-	philo->forks[philo->i + 1] = 1;
 	printf("%d %d has is sleeping.(i:%d)\n", get_ms(philo->ms), philo->i + 1, philo->i);
 }
 

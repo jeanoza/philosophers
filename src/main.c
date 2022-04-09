@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/07 12:02:17 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/09 16:58:57 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,18 @@ void	init(t_philo *philo)
 {
 	int	i;
 
-	philo->persons = malloc(sizeof(int) * philo->nb_philos);
+	philo->persons = malloc(sizeof(t_person) * philo->nb_philos);
 	if (!philo->persons)
 		return ;
-	philo->forks = malloc(sizeof(int) * philo->nb_philos);
+	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->nb_philos);
 	if (!philo->forks)
 	{
 		free(philo->persons);
 		return ;
 	}
 	i = -1;
-	while (++i < philo->nb_philos)
-	{
-		philo->forks[i] = 1;
-		philo->persons[i] = 0;
-	}
+	// while (++i < philo->nb_philos)
+	// 	philo->persons[i] = 0;
 }
 // /*
 //  * av[1] = number_of_philosopers
@@ -43,7 +40,6 @@ int	main(int ac, char **av)
 {
 	t_philo		philo;
 	int			i;
-	pthread_t	*threads;
 	struct timeval	time;
 
 
@@ -53,17 +49,17 @@ int	main(int ac, char **av)
 	init(&philo);
 	if (gettimeofday(&time, NULL) == 0)
 		philo.ms = time.tv_usec;
-	threads = malloc(sizeof(pthread_t) * philo.nb_philos);
-	if (!threads)
-		return (1);
-	memset(threads, 0, sizeof(pthread_t) * philo.nb_philos);
-	pthread_mutex_init(&philo.mutex, NULL);
+	pthread_mutex_init(&philo.display, NULL);
 	i = -1;
 	while (++i < philo.nb_philos)
-		pthread_create(&threads[i], NULL, algo, &philo);
+	{
+		philo.i = i;
+		pthread_mutex_init(&(philo.forks[i]), NULL);
+		pthread_create(&philo.persons[i].thread, NULL, algo, &philo);
+	}
 	i = -1;
 	while (++i < philo.nb_philos)
-		pthread_join(threads[i], NULL);
+		pthread_join(&philo.persons[i].thread, NULL);
 	return (0);
 }
 	//FIXME: when use this two functions...?

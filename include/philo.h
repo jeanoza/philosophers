@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/07 13:11:22 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/04/09 16:50:15 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include <pthread.h>
 
 typedef struct s_person {
-	int	status;
-	int	ms_to_die;
+	int			status;
+	int			ms_to_die;
+	pthread_t	thread;
 }	t_person;
 
 /*
@@ -36,9 +37,9 @@ typedef struct s_philo {
 	int	nb_must_eat;
 	int	i;
 	int	ms;
-	int	*forks;
-	int	*persons;
-	pthread_mutex_t	mutex;
+	t_person *persons;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t display;
 }	t_philo;
 
 
