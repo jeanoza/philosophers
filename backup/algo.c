@@ -33,6 +33,7 @@ static void	case_even(t_philo *philo, int nth)
 
 void	*algo(void *param)
 {
+	printf("(algo)i:%d\n", ((t_philo *) param)->i);
 	case_odd((t_philo *) param, ((t_philo *) param)->i);
 	return (0);
 }

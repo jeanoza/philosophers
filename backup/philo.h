@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/10 22:28:23 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/09 22:03:30 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <pthread.h>
 
 typedef struct s_person {
+	int			status;
+	// int			ms_to_die;
 	int			fork1;
 	int			fork2;
 	pthread_t	thread;
@@ -31,7 +33,12 @@ typedef struct s_person {
  */
 typedef struct s_philo {
 	int	nb_philos;
+	int	ms_die;
+	int	ms_eat;
+	int	ms_sleep;
+	int	nb_must_eat;
 	int	i;
+	int	ms;
 	t_person *persons;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t display;
