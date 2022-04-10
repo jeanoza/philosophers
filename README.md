@@ -25,8 +25,7 @@ void	*memset(void *b, int c, size_t len);
 int		gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 
 /* pthread.h */
-int		pthread_create(pthread_t *thread, const pthread_attr_t *attr,
-            void *(*start_routine)(void *), void *arg);
+int		pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
 int		pthread_detach(pthread_t thread);
 int		pthread_join(pthread_t thread, void **value_ptr);
 int		pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
@@ -109,13 +108,13 @@ int		pthread_mutex_unlock(pthread_mutex_t *mutex);
   - Les autres suivent cette logique : philosophe numéro `N` est assis entre philosophe numéro `N - 1` et philosophe numéro `N + 1`.
 
 - Output
-   ```bash
-   <timestamp_in_ms> <X> has taken a fork
-   <timestamp_in_ms> <X> is eating
-   <timestamp_in_ms> <X> is sleeping
-   <timestamp_in_ms> <X> is thinking
-   <timestamp_in_ms> <X> died
-   ```
+  ```bash
+  <timestamp_in_ms> <X> has taken a fork
+  <timestamp_in_ms> <X> is eating
+  <timestamp_in_ms> <X> is sleeping
+  <timestamp_in_ms> <X> is thinking
+  <timestamp_in_ms> <X> died
+  ```
 
 ### Theory
 

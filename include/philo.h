@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/10 22:28:23 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/11 00:12:50 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,35 +19,35 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct s_person {
-	int			fork1;
-	int			fork2;
+typedef struct s_philo {
+	int				num;
+	pthread_mutex_t	*fork1;
+	pthread_mutex_t	*fork2;
 	pthread_t	thread;
-}	t_person;
+	int			count;
+}	t_philo;
 
 /*
  * forks[i]: 0 => non-available, 1 => available
  * persons[i]: 0 => default, 1 => after eat, 2 => after sleep, 3 => after think
  */
-typedef struct s_philo {
+typedef struct s_data {
 	int	nb_philos;
-	int	i;
-	t_person *persons;
+	t_philo *philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t display;
-}	t_philo;
+	// pthread_mutex_t display;
+}	t_data;
 
 
 int	ft_strlen(char *str);
 int	ft_atoi(char *str);
-int	parsing(int ac, char **av, t_philo *philo);
 
 /* algo.c */
 void	*algo(void *param);
 
 /* actions.c */
-void	take_fork(t_philo *philo, int nth);
-void	eating(t_philo *philo, int nth);
+void	take_fork(t_philo *philo);
+void	eating(t_philo *philo);
 void	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
 int		get_ms(int ms);
