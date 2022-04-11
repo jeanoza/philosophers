@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/11 00:18:49 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/11 08:35:55 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,22 @@ void	init(t_data *data)
 }
 void	take_fork(t_philo *philo)
 {
-	// printf("num:%d fork1[%p] fork2[%p]\n", philo->num, philo->fork1, philo->fork2);
 	pthread_mutex_lock(philo->fork1);
-	printf("%d takes a fork\n", philo->num);
-	pthread_mutex_unlock(philo->fork1);
 	pthread_mutex_lock(philo->fork2);
-	printf("%d takes a fork\n", philo->num);
-	pthread_mutex_unlock(philo->fork2);
+	pthread_mutex_lock(philo->display);
+	printf("%d	%d	takes a fork...\n", get_ms(philo->ms_start), philo->num);
+	printf("%d	%d	takes a fork...\n", get_ms(philo->ms_start), philo->num);
+	pthread_mutex_unlock(philo->display);
 }
 void	eating(t_philo *philo)
 {
+	pthread_mutex_unlock(philo->fork1);
+	pthread_mutex_unlock(philo->fork2);
+	pthread_mutex_lock(philo->display);
+	//FIXME:this trigger have to remove | change with time
 	philo->count = 1;
-	printf("%d is eating\n", philo->num);
+	printf("%d	%d	is eating...\n", get_ms(philo->ms_start), philo->num);
+	pthread_mutex_unlock(philo->display);
 }
 void	routine(void *param)
 {
@@ -38,6 +42,7 @@ void	routine(void *param)
 
 	philo = param;
 
+	//FIXME:this trigger have to remove | change with time
 	while (philo->count != 1)
 	{
 		take_fork(philo);
@@ -72,13 +77,17 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	data.nb_philos = nb_philos;
+	data.ms_start = get_ms(0);
 	data.philos = malloc(sizeof(t_philo) * data.nb_philos);
 	data.forks = malloc(sizeof(pthread_mutex_t) * data.nb_philos);
 	init_forks(&data);
+	pthread_mutex_init(&data.display, NULL);
 	i = 0;
 	while (i < nb_philos)
 	{
 		data.philos[i].num = i + 1;
+		data.philos[i].ms_start = data.ms_start;
+		data.philos[i].display = &data.display;
 		pthread_create(&data.philos[i].thread, NULL, (void *)&routine, (void *) &data.philos[i]);
 		++i;
 	}

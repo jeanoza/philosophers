@@ -6,9 +6,11 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/08 15:06:38 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/11 08:10:38 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "philo.h"
 
 int	ft_strlen(char *str)
 {
@@ -45,4 +47,12 @@ int	ft_atoi(char *str)
 	while (str[i] && ft_is_numeric(str[i]) && i < ft_strlen(str))
 		res = (10 * res) + (str[i++] - '0');
 	return (sign * res);
+}
+
+int	get_ms(int ms_start)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_usec - ms_start);
 }
