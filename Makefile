@@ -4,6 +4,9 @@ SRC_PATH	=	./src/
 
 SRCS		=	main.c \
 				utils.c \
+				init.c \
+				actions.c \
+				routine.c \
 
 OBJ_PATH	=	./bin/
 

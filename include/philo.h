@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/11 08:34:17 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/12 09:02:00 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,22 @@ typedef struct s_data {
 	pthread_mutex_t display;
 }	t_data;
 
-
+/* utils */
 int	ft_strlen(char *str);
 int	ft_atoi(char *str);
+int	get_ms(int ms);
 
-/* algo.c */
-void	*algo(void *param);
 
 /* actions.c */
-void	take_fork(t_philo *philo);
-void	eating(t_philo *philo);
-void	sleeping(t_philo *philo);
-void	thinking(t_philo *philo);
-int		get_ms(int ms);
+void	r_take_fork(t_philo *philo);
+void	r_eat(t_philo *philo);
+void	r_sleep(t_philo *philo);
+void	r_think(t_philo *philo);
+
+/* routine.c */
+void	routine(void *param);
+
+/* init.c */
+void	init(t_data *data, char **av);
 
 #endif
