@@ -7,6 +7,7 @@ SRCS		=	main.c \
 				init.c \
 				actions.c \
 				routine.c \
+				exit.c \
 
 OBJ_PATH	=	./bin/
 

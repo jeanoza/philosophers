@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:59:20 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/12 09:02:07 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/12 20:47:17 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	routine(void *param)
 	philo = param;
 
 	//FIXME:this trigger have to remove | change with time
-	while (philo->count != 1)
+	while (philo->time->count != 1)
 	{
 		r_take_fork(philo);
 		r_eat(philo);
