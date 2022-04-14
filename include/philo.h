@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/12 22:37:24 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/14 12:16:57 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ typedef struct s_philo {
 	int				num;
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
+	pthread_mutex_t	*m_eat;
+	pthread_mutex_t	*m_sleep;
+	pthread_mutex_t	*m_think;
 	pthread_mutex_t	*display;
 	pthread_t		thread;
 	t_time			*time;
@@ -44,8 +47,15 @@ typedef struct s_data {
 	int				nb_philos;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	*m_eat;
+	pthread_mutex_t	*m_sleep;
+	pthread_mutex_t	*m_think;
 	pthread_mutex_t	display;
 }	t_data;
+
+# define M_EAT 1
+# define M_SLEEP 2
+# define M_THINK 3
 
 /* utils */
 int		ft_strlen(char *str);

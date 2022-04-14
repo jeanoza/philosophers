@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:35:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/12 22:37:06 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/14 11:41:56 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,35 @@
 
 void	free_all(t_data *data)
 {
-	free(data->philos);
-	free(data->forks);
+	if (data->philos)
+		free(data->philos);
+	if (data->forks)
+		free(data->forks);
+	if (data->m_sleep)
+		free(data->m_sleep);
+	if (data->m_eat)
+		free(data->m_eat);
+	if (data->m_think)
+		free(data->m_think);
 }
 
 void	destroy_all(t_data *data)
 {
 	int	i;
 
-	if (pthread_mutex_destroy(&data->display) != 0)
-		exit_error_free("mutex destroy", data);
-	i = 0;
-	while (i < data->nb_philos)
+	pthread_mutex_destroy(&data->display);
+	//FIXME:protection for mutex destroy? isn't it like if (free()) exit(1)..?
+	i = -1;
+	while (++i < data->nb_philos)
 	{
-		if (pthread_mutex_destroy(&data->forks[i++]) != 0)
-			exit_error_free("mutex destroy", data);
+		if (&data->forks[i])
+			pthread_mutex_destroy(&data->forks[i]);
+		// if (&data->m_eat[i])
+		// 	pthread_mutex_destroy(&data->m_eat[i]);
+		// if (&data->m_sleep[i])
+		// 	pthread_mutex_destroy(&data->m_sleep[i]);
+		// if (&data->m_think[i])
+		// 	pthread_mutex_destroy(&data->m_think[i]);
 	}
 }
 

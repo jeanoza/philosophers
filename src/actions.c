@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/12 20:47:08 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/14 11:09:49 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@ void	r_eat(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->fork1);
 	pthread_mutex_unlock(philo->fork2);
+	// pthread_mutex_lock(philo->m_eat);
+	// usleep(philo->time->ms_to_eat);
 	pthread_mutex_lock(philo->display);
-	//FIXME:this trigger have to remove | change with time
 	printf("%d	%d	is eating...\n", get_ms(philo->time->ms_start), philo->num);
 	pthread_mutex_unlock(philo->display);
-	usleep(2 * 1000);
 }
 void	r_sleep(t_philo *philo)
 {
+	// pthread_mutex_unlock(philo->m_eat);
 	pthread_mutex_lock(philo->display);
 	printf("%d	%d	is sleeping...\n", get_ms(philo->time->ms_start), philo->num);
 	pthread_mutex_unlock(philo->display);
