@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 16:48:16 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 21:48:23 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ void	display(t_philo *philo, char *action)
 	ms_current = ((int) get_micro_sec(philo->time->micro_start) / 1000);
 	printf("%d	%d	%s\n", ms_current, philo->num, action);
 	if (ft_strcmp(action, MSG_EAT) == 0)
-	{
-		// printf("before)	[ms_to_die]%d\n", philo->ms_to_die);
 		philo->ms_to_die = ms_current + philo->time->ms_to_die;
-		// printf("after)	[ms_to_die]%d\n", philo->ms_to_die);
-	}
 	pthread_mutex_unlock(philo->m_display);
 }
 

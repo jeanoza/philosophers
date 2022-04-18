@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 17:15:00 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 21:53:27 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ int	main(int ac, char **av)
 		printf("All philosophers have eaten!\n");
 	destroy_all(&data);
 	free_all(&data);
-	system("leaks philo");
+	// system("leaks philo");
 	return (0);
 }
