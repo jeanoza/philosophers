@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 10:50:39 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 15:12:05 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ void	parse(t_data *data, t_time *time, char **av)
 		time->count = 1;
 }
 
+int	is_everyone_eat(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nb_philos)
+	{
+		if (data->philos[i].count_to_eat != 0)
+			return (0);
+	}
+	return (1);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -50,6 +63,8 @@ int	main(int ac, char **av)
 	memset(&data, 0, sizeof(t_data));
 	parse(&data, &time, av);
 	init(&data, &time, av);
+	if (is_everyone_eat(&data))
+		printf("All philosophers have eaten!\n");
 	destroy_all(&data);
 	free_all(&data);
 	// system("leaks philo");
