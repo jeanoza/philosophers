@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/14 12:16:57 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 13:17:32 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <pthread.h>
 
 typedef struct s_time {
-	int	ms_start;
+	long long	micro_start;
 	int	ms_to_die;
 	int	ms_to_eat;
 	int	ms_to_sleep;
@@ -29,38 +29,43 @@ typedef struct s_time {
 
 typedef struct s_philo {
 	int				num;
+	int				count_to_eat;
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
-	pthread_mutex_t	*m_eat;
-	pthread_mutex_t	*m_sleep;
-	pthread_mutex_t	*m_think;
-	pthread_mutex_t	*display;
+	// pthread_mutex_t	*m_eat;
+	// pthread_mutex_t	*m_sleep;
+	// pthread_mutex_t	*m_think;
+	pthread_mutex_t	*m_display;
 	pthread_t		thread;
 	t_time			*time;
 }	t_philo;
 
-/*
- * forks[i]: 0 => non-available, 1 => available
- * persons[i]: 0 => default, 1 => after eat, 2 => after sleep, 3 => after think
- */
 typedef struct s_data {
 	int				nb_philos;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	*m_eat;
-	pthread_mutex_t	*m_sleep;
-	pthread_mutex_t	*m_think;
-	pthread_mutex_t	display;
+	// pthread_mutex_t	*m_eat;
+	// pthread_mutex_t	*m_sleep;
+	// pthread_mutex_t	*m_think;
+	pthread_mutex_t	m_display;
 }	t_data;
 
+# define M_FORKS 0
 # define M_EAT 1
 # define M_SLEEP 2
 # define M_THINK 3
+# define M_DISPLAY 4
+
+# define MSG_FORKS "has taken a fork"
+# define MSG_EAT "is eating"
+# define MSG_SLEEP "is sleeping"
+# define MSG_THINK "is thinking"
+
 
 /* utils */
 int		ft_strlen(char *str);
 int		ft_atoi(char *str);
-int		get_ms(int ms);
+long long	get_micro_sec(long long micro_start);
 
 /* actions.c */
 void	r_take_fork(t_philo *philo);

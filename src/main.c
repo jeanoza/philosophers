@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/14 11:41:14 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 10:50:39 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || ac > 6)
 		exit_error("arguments not enough or too much\n");
+	memset(&data, 0, sizeof(t_data));
 	parse(&data, &time, av);
 	init(&data, &time, av);
 	destroy_all(&data);
 	free_all(&data);
+	// system("leaks philo");
 	return (0);
 }
