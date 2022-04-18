@@ -66,3 +66,36 @@ void	init(t_data *data, t_time *time, char **av)
 	// init_mutex(data, data->m_think, M_THINK, 0);
 	init_threads(data, time);
 }
+
+void	free_all(t_data *data)
+{
+	if (data->philos)
+		free(data->philos);
+	if (data->forks)
+		free(data->forks);
+	// if (data->m_sleep)
+	// 	free(data->m_sleep);
+	// if (data->m_eat)
+	// 	free(data->m_eat);
+	// if (data->m_think)
+	// 	free(data->m_think);
+}
+
+void	destroy_all(t_data *data)
+{
+	int	i;
+
+	pthread_mutex_destroy(&data->m_display);
+	i = -1;
+	while (++i < data->nb_philos)
+	{
+		if (&data->forks[i])
+			pthread_mutex_destroy(&data->forks[i]);
+		// if (&data->m_eat[i])
+		// 	pthread_mutex_destroy(&data->m_eat[i]);
+		// if (&data->m_sleep[i])
+		// 	pthread_mutex_destroy(&data->m_sleep[i]);
+		// if (&data->m_think[i])
+		// 	pthread_mutex_destroy(&data->m_think[i]);
+	}
+}

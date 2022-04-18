@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 12:23:32 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 16:20:14 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ int	ft_strlen(char *str)
 	while (str && str[i])
 		++i;
 	return (i);
+}
+
+int	ft_strcmp(char const *s1, char const *s2)
+{
+	int	i;
+
+	if (s1 == s2)
+		return (0);
+	i = 0;
+	while (s1 && s2 && s1[i] == s2[i])
+		++i;
+	return (s1[i] - s2[i]);
 }
 
 int	ft_is_numeric(char c)

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/18 14:57:48 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 17:02:07 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,19 @@ typedef struct s_time {
 typedef struct s_philo {
 	int				num;
 	int				count_to_eat;
+	int				ms_to_die;
+	pthread_t		thread;
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
-	// pthread_mutex_t	*m_eat;
-	// pthread_mutex_t	*m_sleep;
-	// pthread_mutex_t	*m_think;
 	pthread_mutex_t	*m_display;
-	pthread_t		thread;
 	t_time			*time;
+	struct s_data	*data;
 }	t_philo;
 
 typedef struct s_data {
 	int				nb_philos;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
-	// pthread_mutex_t	*m_eat;
-	// pthread_mutex_t	*m_sleep;
-	// pthread_mutex_t	*m_think;
 	pthread_mutex_t	m_display;
 }	t_data;
 
@@ -65,6 +61,7 @@ typedef struct s_data {
 /* utils */
 int		ft_strlen(char *str);
 int		ft_atoi(char *str);
+int		ft_strcmp(const char *s1, const char *s2);
 long long	get_micro_sec(long long micro_start);
 
 /* actions.c */
@@ -77,7 +74,7 @@ void	r_think(t_philo *philo);
 void	routine(void *param);
 
 /* init.c */
-void	init(t_data *data, t_time *time, char **av);
+void	init(t_data *data, t_time *time);
 
 /* exit.c */
 void	free_all(t_data *data);

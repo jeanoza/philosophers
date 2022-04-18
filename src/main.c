@@ -6,13 +6,13 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 15:12:05 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/18 17:15:00 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	parse(t_data *data, t_time *time, char **av)
+static void	parse(t_data *data, t_time *time, char **av)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ void	parse(t_data *data, t_time *time, char **av)
 		time->count = 1;
 }
 
-int	is_everyone_eat(t_data *data)
+static int	is_everyone_eat(t_data *data)
 {
 	int	i;
 
@@ -62,11 +62,11 @@ int	main(int ac, char **av)
 		exit_error("arguments not enough or too much\n");
 	memset(&data, 0, sizeof(t_data));
 	parse(&data, &time, av);
-	init(&data, &time, av);
+	init(&data, &time);
 	if (is_everyone_eat(&data))
 		printf("All philosophers have eaten!\n");
 	destroy_all(&data);
 	free_all(&data);
-	// system("leaks philo");
+	system("leaks philo");
 	return (0);
 }
