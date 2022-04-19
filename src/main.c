@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 21:53:27 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/19 08:29:41 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	main(int ac, char **av)
 	init(&data, &time);
 	if (is_everyone_eat(&data))
 		printf("All philosophers have eaten!\n");
+	if (data.first_dead)
+		printf("%d	%d	has been died\n", data.ms_current, data.first_dead);
 	destroy_all(&data);
 	free_all(&data);
 	// system("leaks philo");
