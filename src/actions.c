@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 23:22:10 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 23:25:44 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	display(t_philo *philo, char *action)
 
 	pthread_mutex_lock(philo->m_display);
 	philo->ms_current = get_micro_sec(philo->time->micro_start);
-	// if (ft_strcmp(action, MSG_EAT) == 0)
 	if (philo->ms_current >= philo->ms_to_die)
 	{
 		if (!philo->data->first_dead)
