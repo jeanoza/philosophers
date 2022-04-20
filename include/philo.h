@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/19 09:00:04 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 08:44:12 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,40 +49,37 @@ typedef struct s_data {
 	pthread_mutex_t	m_display;
 }	t_data;
 
-# define M_FORKS 0
-# define M_EAT 1
-# define M_SLEEP 2
-# define M_THINK 3
-# define M_DISPLAY 4
-
 # define MSG_FORKS "has taken a fork"
 # define MSG_EAT "is eating"
 # define MSG_SLEEP "is sleeping"
 # define MSG_THINK "is thinking"
 
+# define COLOR_RED "\033[0;31m"
+# define COLOR_PURPLE "\033[0;35m"
+# define COLOR_DEFAULT "\033[0m"
+
 
 /* utils */
-int		ft_strlen(char *str);
-int		ft_atoi(char *str);
-int		ft_strcmp(const char *s1, const char *s2);
+int			ft_strlen(char *str);
+int			ft_atoi(char *str);
+int			ft_strcmp(const char *s1, const char *s2);
 long long	get_micro_sec(long long micro_start);
 
 /* actions.c */
-void	r_take_fork(t_philo *philo);
-void	r_eat(t_philo *philo);
-void	r_sleep(t_philo *philo);
-void	r_think(t_philo *philo);
+void		r_take_fork(t_philo *philo);
+void		r_eat(t_philo *philo);
+void		r_sleep(t_philo *philo);
+void		r_think(t_philo *philo);
 
 /* routine.c */
-void	routine(void *param);
+void		routine(void *param);
 
 /* init.c */
-void	init(t_data *data, t_time *time);
+int			init(t_data *data, t_time *time);
 
 /* exit.c */
-void	free_all(t_data *data);
-void	destroy_all(t_data *data);
-int		exit_error(const char *msg);
-int		exit_error_free(const char *msg, t_data *data);
+void		free_all(t_data *data);
+void		destroy_all(t_data *data);
+int			print_error_u(const char *msg);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 17:02:16 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 08:22:06 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	init_forks(t_data *data)
+static int	init_forks(t_data *data)
 {
 	t_philo	*philo;
 	int		i;
@@ -21,7 +21,7 @@ static void	init_forks(t_data *data)
 	while (i < data->nb_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i++], NULL) != 0)
-			exit_error("mutex init");
+			return (1);
 	}
 	i = -1;
 	while (++i < data->nb_philos)
@@ -30,9 +30,10 @@ static void	init_forks(t_data *data)
 		philo->fork1 = &data->forks[i];
 		philo->fork2 = &data->forks[(i + 1) % data->nb_philos];
 	}
+	return (0);
 }
 
-static void	init_threads(t_data *data, t_time *time)
+static int	init_threads(t_data *data, t_time *time)
 {
 	int	i;
 
@@ -47,28 +48,29 @@ static void	init_threads(t_data *data, t_time *time)
 		data->philos[i].data = data;
 		if (pthread_create(&data->philos[i].thread, NULL,
 				(void *)&routine, (void *) &data->philos[i]) != 0)
-			exit_error_free("thread create", data);
+			return (1);
 		++i;
 	}
 	i = 0;
 	while (i < data->nb_philos)
 	{
 		if (pthread_join(data->philos[i++].thread, NULL) != 0)
-			exit_error_free("thread join", data);
+			return (1);
 	}
+	return (0);
 }
 
-void	init(t_data *data, t_time *time)
+int	init(t_data *data, t_time *time)
 {
 	time->micro_start = get_micro_sec(0);
 	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
-	if (data->philos == NULL)
-		exit_error("malloc error");
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
-	if (data->forks == NULL)
-		exit_error_free("malloc error", data);
-	init_forks(data);
-	if (pthread_mutex_init(&data->m_display, NULL) != 0)
-		exit_error_free("display mutex init", data);
-	init_threads(data, time);
+	if (data->forks == NULL || data->forks == NULL)
+		return (print_error_u("malloc error"));
+	if (init_forks(data) != 0
+		&& pthread_mutex_init(&data->m_display, NULL) != 0)
+		return (print_error_u("mutex init"));
+	if (init_threads(data, time) != 0)
+		return (print_error_u("thread create/join"));
+	return (0);
 }

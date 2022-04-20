@@ -27,11 +27,11 @@ void	init_mutex(t_data *data, pthread_mutex_t *mutexes, int opt, int i)
 	t_philo	*philo;
 
 	if (mutexes == NULL)
-		exit_error_free("malloc error", data);
+		print_error_u_free("malloc error", data);
 	while (i < data->nb_philos)
 	{
 		if (pthread_mutex_init(&mutexes[i++], NULL) != 0)
-			exit_error("mutex init");
+			print_error_u("mutex init");
 	}
 	i = -1;
 	while (++i < data->nb_philos)

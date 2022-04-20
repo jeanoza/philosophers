@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:35:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 15:28:53 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 08:41:57 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ void	destroy_all(t_data *data)
 			pthread_mutex_destroy(&data->forks[i]);
 	}
 }
-int	exit_error(const char *msg)
+
+int	print_error_u(const char *msg)
 {
-	printf("error: %s\n", msg);
-	exit(1);
+	printf("%susage:	./philo <number_of_philosophers> ", COLOR_RED);
+	printf("<time_to_die> <time_to_eat> <time_to_sleep> ");
+	printf("[number_of_times_each_philosopher_must_eat]%s\n", COLOR_DEFAULT);
+	return (printf("%serror: %s%s\n", COLOR_PURPLE, msg, COLOR_DEFAULT));
 }
 
-int	exit_error_free(const char *msg, t_data *data)
+int	print_error_i(const char *msg)
 {
-	destroy_all(data);
-	free_all(data);
-	printf("error: %s\n", msg);
-	exit(1);
+	return (printf("%serror: %s%s\n", COLOR_PURPLE, msg, COLOR_DEFAULT));
 }
