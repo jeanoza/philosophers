@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/20 08:44:12 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 23:22:03 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo {
 	int				num;
 	int				count_to_eat;
 	int				ms_to_die;
-	int				status;
+	long long		ms_current;
 	pthread_t		thread;
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
@@ -43,7 +43,7 @@ typedef struct s_philo {
 typedef struct s_data {
 	int				nb_philos;
 	int				first_dead;
-	int				ms_current;
+	long long		ms_current;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	m_display;

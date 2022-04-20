@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 08:46:06 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 23:22:10 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,23 @@
 
 void	display(t_philo *philo, char *action)
 {
-	int	ms_current;
 
 	pthread_mutex_lock(philo->m_display);
-	ms_current = ((int) get_micro_sec(philo->time->micro_start) / 1000);
-	if (ft_strcmp(action, MSG_EAT) == 0)
-		philo->ms_to_die = ms_current + philo->time->ms_to_die;
-	if (ms_current >= philo->ms_to_die)
+	philo->ms_current = get_micro_sec(philo->time->micro_start);
+	// if (ft_strcmp(action, MSG_EAT) == 0)
+	if (philo->ms_current >= philo->ms_to_die)
 	{
 		if (!philo->data->first_dead)
 		{
 			philo->data->first_dead = philo->num;
-			philo->data->ms_current = ms_current;
+			philo->data->ms_current = philo->ms_current;
 		}
 		pthread_mutex_unlock(philo->fork1);
 		pthread_mutex_unlock(philo->fork2);
 		pthread_mutex_unlock(philo->m_display);
 		return ;
 	}
-	printf("%d	%d	%s\n", ms_current, philo->num, action);
-	philo->status = ((philo->status + 1) % 5);
+	printf("%lld	%d	%s\n", philo->ms_current, philo->num, action);
 	pthread_mutex_unlock(philo->m_display);
 }
 
@@ -50,6 +47,7 @@ void	r_eat(t_philo *philo)
 {
 	display(philo, MSG_EAT);
 	usleep((useconds_t)(philo->time->ms_to_eat * 1000));
+	philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
 	pthread_mutex_unlock(philo->fork1);
 	pthread_mutex_unlock(philo->fork2);
 }

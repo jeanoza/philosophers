@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/18 16:20:14 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 23:15:36 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ long long	get_micro_sec(long long micro_start)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000 * 1000 + time.tv_usec) - micro_start);
+	return ((time.tv_sec * 1000 + time.tv_usec / 1000) - micro_start);
 }

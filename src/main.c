@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 08:22:08 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/20 23:21:59 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	parse(t_data *data, t_time *time, char **av)
 
 	if (av[5] && av[5][0] == '0')
 		return (print_error_u("[must_eat_time] cannot be '0' : you know:))"));
+	//FIXME: dont put protection but philosoper must die it self.
 	if (ft_atoi(av[1]) < 2)
 		return (print_error_u("only one philosopher cannot eat!"));
 	data->nb_philos = ft_atoi(av[1]);
@@ -65,7 +66,7 @@ int	main(int ac, char **av)
 	if (parse(&data, &time, av) == 0 && init(&data, &time) == 0)
 	{
 		if (data.first_dead)
-			printf("%d	%d	has been died\n", data.ms_current, data.first_dead);
+			printf("%lld	%d	has been died\n", data.ms_current, data.first_dead);
 		else if (is_everyone_eat(&data))
 			printf("All philosophers have eaten!\n");
 	}
