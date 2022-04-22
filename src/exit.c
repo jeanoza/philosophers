@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:35:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 21:24:22 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/21 21:21:22 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,20 @@ void	destroy_all(t_data *data)
 	i = -1;
 	while (++i < data->nb_philos)
 	{
-		if (&data->forks[i])
+		if (data->forks && &data->forks[i])
 			pthread_mutex_destroy(&data->forks[i]);
 	}
 }
 
 int	print_error_u(const char *msg)
 {
-	// printf("%susage:	./philo <number_of_philosophers> ", COLOR_RED);
-	// printf("<time_to_die> <time_to_eat> <time_to_sleep> ");
-	// printf("[number_of_times_each_philosopher_must_eat]%s\n", COLOR_DEFAULT);
-	// return (printf("%serror: %s%s\n", COLOR_PURPLE, msg, COLOR_DEFAULT));
-	return (printf("error: %s\n", msg));
+	printf("%susage:	./philo <number_of_philosophers> ", COLOR_RED);
+	printf("<time_to_die> <time_to_eat> <time_to_sleep> ");
+	printf("[number_of_times_each_philosopher_must_eat]%s\n", COLOR_DEFAULT);
+	return (printf("%serror: %s%s\n", COLOR_PURPLE, msg, COLOR_DEFAULT));
 }
 
 int	print_error_i(const char *msg)
 {
-	// return (printf("%serror: %s%s\n", COLOR_PURPLE, msg, COLOR_DEFAULT));
-	return (printf("error: %s\n", msg));
+	return (printf("%serror: %s%s\n", COLOR_PURPLE, msg, COLOR_DEFAULT));
 }

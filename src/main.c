@@ -6,11 +6,22 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 23:21:59 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/22 10:48:38 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int	one_philo(int ms_to_die)
+{
+	long long	current_time;
+
+	current_time = get_time();
+	printf("0	1	has taken a fork\n");
+	usleep(ms_to_die * 1000);
+	// sleep_ajusted(ms_to_die);
+	return (printf("%d	1	died\n", ms_to_die));
+}
 
 static int	parse(t_data *data, t_time *time, char **av)
 {
@@ -18,12 +29,8 @@ static int	parse(t_data *data, t_time *time, char **av)
 
 	if (av[5] && av[5][0] == '0')
 		return (print_error_u("[must_eat_time] cannot be '0' : you know:))"));
-	//FIXME: dont put protection but philosoper must die it self.
-	if (ft_atoi(av[1]) < 2)
-		return (print_error_u("only one philosopher cannot eat!"));
-	data->nb_philos = ft_atoi(av[1]);
-	i = 2;
-	while (av[i] && ft_atoi(av[i]))
+	i = 1;
+	while (av[i] && ft_atoi(av[i]) > 0)
 	{
 		if (i == 2)
 			time->ms_to_die = ft_atoi(av[2]);
@@ -32,27 +39,15 @@ static int	parse(t_data *data, t_time *time, char **av)
 		else if (i == 4)
 			time->ms_to_sleep = ft_atoi(av[4]);
 		else if (i == 5)
-			time->count = ft_atoi(av[5]);
+			time->count_to_eat = ft_atoi(av[5]);
 		++i;
 	}
 	if (i < 5)
 		return (print_error_u("each args must be numeric more than 0!"));
-	if (i == 5)
-		time->count = 1;
+	if (ft_atoi(av[1]) == 1)
+		return (one_philo(time->ms_to_die));
+	data->nb_philos = ft_atoi(av[1]);
 	return (0);
-}
-
-static int	is_everyone_eat(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->nb_philos)
-	{
-		if (data->philos[i].count_to_eat != 0)
-			return (0);
-	}
-	return (1);
 }
 
 int	main(int ac, char **av)
@@ -66,12 +61,11 @@ int	main(int ac, char **av)
 	if (parse(&data, &time, av) == 0 && init(&data, &time) == 0)
 	{
 		if (data.first_dead)
-			printf("%lld	%d	has been died\n", data.ms_current, data.first_dead);
-		else if (is_everyone_eat(&data))
+			printf("%lld	%d	died\n", data.ms_current, data.first_dead);
+		else
 			printf("All philosophers have eaten!\n");
 	}
 	destroy_all(&data);
 	free_all(&data);
-	// system("leaks philo");
 	return (0);
 }

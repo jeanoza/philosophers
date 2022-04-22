@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 23:15:36 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/22 12:37:27 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,17 @@ int	ft_strcmp(char const *s1, char const *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	ft_is_numeric(char c)
+// void	sleep_ajusted(long long ms)
+void	sleep_ajusted(long long ms, t_philo *philo)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	long long	current;
+
+	(void)philo;
+
+	current = get_time();
+	while ((get_time() - current) < ms)
+		usleep(100);
+	// philo->ms_current = get_time() - philo->time->ms_start;
 }
 
 int	ft_atoi(char *str)
@@ -56,15 +62,15 @@ int	ft_atoi(char *str)
 			sign *= -1;
 		++i;
 	}
-	while (str[i] && ft_is_numeric(str[i]) && i < ft_strlen(str))
+	while (str && str[i] && str[i] >= '0' && str[i] <= '9' )
 		res = (10 * res) + (str[i++] - '0');
 	return (sign * res);
 }
 
-long long	get_micro_sec(long long micro_start)
+long long	get_time(void)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000 + time.tv_usec / 1000) - micro_start);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }

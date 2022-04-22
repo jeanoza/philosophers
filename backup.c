@@ -53,7 +53,7 @@ void	init_mutex(t_data *data, pthread_mutex_t *mutexes, int opt, int i)
 
 void	init(t_data *data, t_time *time, char **av)
 {
-	time->micro_start = get_micro_sec(0);
+	time->ms_start = get_time(0);
 	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
 	// data->m_eat = malloc(sizeof(pthread_mutex_t) * data->nb_philos);

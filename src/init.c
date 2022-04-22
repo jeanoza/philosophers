@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/20 21:52:09 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/21 21:19:39 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	init_threads(t_data *data, t_time *time)
 	while (i < data->nb_philos)
 	{
 		data->philos[i].num = i + 1;
-		data->philos[i].count_to_eat = time->count;
+		data->philos[i].eat_count = 0;
 		data->philos[i].ms_to_die = time->ms_to_die;
 		data->philos[i].m_display = &data->m_display;
 		data->philos[i].time = time;
@@ -53,24 +53,21 @@ static int	init_threads(t_data *data, t_time *time)
 	}
 	i = 0;
 	while (i < data->nb_philos)
-	{
-		if (pthread_join(data->philos[i++].thread, NULL) != 0)
-			return (1);
-	}
+		pthread_join(data->philos[i++].thread, NULL);
 	return (0);
 }
 
 int	init(t_data *data, t_time *time)
 {
-	time->micro_start = get_micro_sec(0);
+	time->ms_start = get_time();
 	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
 	if (data->forks == NULL || data->forks == NULL)
-		return (print_error_u("malloc error"));
+		return (print_error_i("malloc error"));
 	if (init_forks(data) != 0
 		&& pthread_mutex_init(&data->m_display, NULL) != 0)
-		return (print_error_u("mutex init"));
+		return (print_error_i("mutex init"));
 	if (init_threads(data, time) != 0)
-		return (print_error_u("thread create/join"));
+		return (print_error_i("thread create/join"));
 	return (0);
 }
