@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/22 12:02:29 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/22 18:49:40 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ void		destroy_all(t_data *data);
 int			print_error_u(const char *msg);
 int			print_error_i(const char *msg);
 
-// void		sleep_ajusted(long long ms);
-void	sleep_ajusted(long long ms, t_philo *philo);
+void		sleep_ajusted(long long ms);
+// void	sleep_ajusted(long long ms, t_philo *philo);
 #endif

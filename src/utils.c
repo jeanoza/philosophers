@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/22 12:37:27 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/22 18:49:35 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,13 @@ int	ft_strcmp(char const *s1, char const *s2)
 	return (s1[i] - s2[i]);
 }
 
-// void	sleep_ajusted(long long ms)
-void	sleep_ajusted(long long ms, t_philo *philo)
+void	sleep_ajusted(long long ms)
 {
 	long long	current;
-
-	(void)philo;
 
 	current = get_time();
 	while ((get_time() - current) < ms)
 		usleep(100);
-	// philo->ms_current = get_time() - philo->time->ms_start;
 }
 
 int	ft_atoi(char *str)

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/22 12:42:42 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/22 18:54:16 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	display(t_philo *philo, char *action)
 {
 	pthread_mutex_lock(philo->m_display);
 	philo->ms_current = get_time() - philo->time->ms_start;
-	if (philo->data->first_dead || philo->ms_current >= philo->ms_to_die)
+	if (philo->data->first_dead || philo->ms_current > philo->ms_to_die)
 	{
-		//FIXME: this dead timing has to change
+		// FIXME: this dead timing has to change
 		if (!philo->data->first_dead)
 		{
 			philo->data->first_dead = philo->num;
@@ -29,7 +29,8 @@ void	display(t_philo *philo, char *action)
 		pthread_mutex_unlock(philo->m_display);
 		return ;
 	}
-	// printf("%lld	%d	%s		(ms_to_die:%d, ec:%d)\n", philo->ms_current, philo->num, action, philo->ms_to_die, philo->eat_count);
+	if (ft_strcmp(action, MSG_EAT) == 0)
+		philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
 	printf("%lld	%d	%s\n", philo->ms_current, philo->num, action);
 	pthread_mutex_unlock(philo->m_display);
 }
@@ -45,10 +46,7 @@ void	r_take_fork(t_philo *philo)
 void	r_eat(t_philo *philo)
 {
 	display(philo, MSG_EAT);
-	philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
-	sleep_ajusted(philo->time->ms_to_eat, philo);
-	// sleep_ajusted(philo->time->ms_to_eat);
-	// usleep(philo->time->ms_to_eat * 1000);
+	sleep_ajusted(philo->time->ms_to_eat);
 	pthread_mutex_unlock(philo->fork1);
 	pthread_mutex_unlock(philo->fork2);
 }
@@ -56,9 +54,7 @@ void	r_eat(t_philo *philo)
 void	r_sleep(t_philo *philo)
 {
 	display(philo, MSG_SLEEP);
-	sleep_ajusted(philo->time->ms_to_sleep, philo);
-	// // sleep_ajusted(philo->time->ms_to_sleep);
-	// usleep(philo->time->ms_to_sleep * 1000);
+	sleep_ajusted(philo->time->ms_to_sleep);
 }
 
 void	r_think(t_philo *philo)
