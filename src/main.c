@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/22 17:38:07 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/23 00:23:43 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	one_philo(int ms_to_die)
 	current_time = get_time();
 	printf("0	1	has taken a fork\n");
 	usleep(ms_to_die * 1000);
-	// sleep_ajusted(ms_to_die);
 	return (printf("%d	1	died\n", ms_to_die));
 }
 
@@ -54,12 +53,21 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 	t_time	time;
+	int		i;
 
 	if (ac < 5 || ac > 6)
 		return (print_error_u("arguments not enough or too much\n"));
 	memset(&data, 0, sizeof(t_data));
 	if (parse(&data, &time, av) == 0 && init(&data, &time) == 0)
 	{
+		i = 0;
+		while (!data.first_dead)
+		{
+			data.ms_current = get_time() - time.ms_start;
+			if (data.ms_current > data.philos[i].ms_to_die)
+				data.first_dead = data.philos[i].num;
+			i = (i + 1) % data.nb_philos;
+		}
 		if (data.first_dead)
 			printf("%lld	%d	died\n", data.ms_current, data.first_dead);
 		else

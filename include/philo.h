@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/22 18:49:40 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/23 00:17:44 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,31 @@ typedef struct s_time {
 
 typedef struct s_philo {
 	int				num;
+	int				is_dead;
 	int				eat_count;
 	int				ms_to_die;
 	long long		ms_current;
 	pthread_t		thread;
-	pthread_mutex_t	*fork1;
-	pthread_mutex_t	*fork2;
+	pthread_mutex_t	*m_fork1;
+	pthread_mutex_t	*m_fork2;
 	pthread_mutex_t	*m_display;
+	pthread_mutex_t	*m_life;
 	t_time			*time;
 	struct s_data	*data;
 }	t_philo;
 
+//TODO:free && destroy life;
 typedef struct s_data {
 	int				nb_philos;
 	int				first_dead;
 	long long		ms_current;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	*m_forks;
+	pthread_mutex_t	m_life;
 	pthread_mutex_t	m_display;
 }	t_data;
+
+# define M_SUCCESS 0
 
 # define MSG_FORKS "has taken a fork"
 # define MSG_EAT "is eating"
@@ -70,6 +76,7 @@ void		r_take_fork(t_philo *philo);
 void		r_eat(t_philo *philo);
 void		r_sleep(t_philo *philo);
 void		r_think(t_philo *philo);
+void		display(t_philo *philo, char *action);
 
 /* routine.c */
 void		routine(void *param);

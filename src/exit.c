@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:35:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/21 21:21:22 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/22 22:49:55 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	free_all(t_data *data)
 {
 	if (data->philos)
 		free(data->philos);
-	if (data->forks)
-		free(data->forks);
+	if (data->m_forks)
+		free(data->m_forks);
 }
 
 void	destroy_all(t_data *data)
@@ -28,8 +28,9 @@ void	destroy_all(t_data *data)
 	i = -1;
 	while (++i < data->nb_philos)
 	{
-		if (data->forks && &data->forks[i])
-			pthread_mutex_destroy(&data->forks[i]);
+		pthread_join(data->philos[i].thread, NULL);
+		if (data->m_forks && &data->m_forks[i])
+			pthread_mutex_destroy(&data->m_forks[i]);
 	}
 }
 
