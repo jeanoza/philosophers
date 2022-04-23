@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 00:23:43 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/23 10:47:48 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,34 @@ static int	parse(t_data *data, t_time *time, char **av)
 	return (0);
 }
 
+static int	all_ate(t_data *data, t_time *time)
+{
+	int	i;
+
+	i = 0;
+	if (time->count_to_eat == 0)
+		return (0);
+	while (i < data->nb_philos)
+	{
+		if (data->philos[i].eat_count != time->count_to_eat)
+			return (0);
+		++i;
+	}
+	return (1);
+}
+// static int	find_dead_person(t_data *data, t_time *time)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < data->nb_philos)
+// 	{
+// 		if (data->philos[i].eat_count != time->count_to_eat)
+// 			return (0);
+// 		++i;
+// 	}
+// }
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -58,15 +86,25 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 		return (print_error_u("arguments not enough or too much\n"));
 	memset(&data, 0, sizeof(t_data));
+	memset(&time, 0, sizeof(t_time));
 	if (parse(&data, &time, av) == 0 && init(&data, &time) == 0)
 	{
 		i = 0;
 		while (!data.first_dead)
 		{
+			pthread_mutex_lock(&data.m_life);
+			if (all_ate(&data, &time))
+				break ;
 			data.ms_current = get_time() - time.ms_start;
+			data.philos[i].ms_current = data.ms_current;
 			if (data.ms_current > data.philos[i].ms_to_die)
+			{
+				data.philos[i].is_dead = 1;
 				data.first_dead = data.philos[i].num;
+				break ;
+			}
 			i = (i + 1) % data.nb_philos;
+			pthread_mutex_unlock(&data.m_life);
 		}
 		if (data.first_dead)
 			printf("%lld	%d	died\n", data.ms_current, data.first_dead);
