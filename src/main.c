@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/24 17:50:28 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/26 23:32:13 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 static int	one_philo(int ms_to_die)
 {
-	long long	current_time;
-
-	current_time = get_time();
 	printf("0	1	has taken a fork\n");
-	usleep(ms_to_die * 1000);
+	sleep_ajusted(ms_to_die);
 	return (printf("%d	1	died\n", ms_to_die));
 }
 
@@ -26,12 +23,10 @@ static int	parse(t_data *data, t_time *time, char **av)
 {
 	int	i;
 
-	memset(data, 0, sizeof(t_data));
-	memset(time, 0, sizeof(t_time));
 	if (av[5] && av[5][0] == '0')
 		return (print_error_u("[must_eat_time] cannot be '0' : you know:))"));
-	i = 1;
-	while (av[i] && ft_atoi(av[i]) > 0)
+	i = 0;
+	while (av[++i] && ft_atoi(av[i]) > 0)
 	{
 		if (i == 2)
 			time->ms_to_die = ft_atoi(av[2]);
@@ -41,10 +36,11 @@ static int	parse(t_data *data, t_time *time, char **av)
 			time->ms_to_sleep = ft_atoi(av[4]);
 		else if (i == 5)
 			time->count_to_eat = ft_atoi(av[5]);
-		++i;
 	}
 	if (i < 5)
 		return (print_error_u("each args must be numeric more than 0!"));
+	if (ft_atoi(av[1]) >= 200)
+		return (print_error_u("cannot generate more than 200!"));
 	if (ft_atoi(av[1]) == 1)
 		return (one_philo(time->ms_to_die));
 	data->nb_philos = ft_atoi(av[1]);
@@ -66,49 +62,50 @@ static int	all_ate(t_data *data, t_time *time)
 	}
 	return (1);
 }
-// static int	find_dead_person(t_data *data, t_time *time)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	while (i < data->nb_philos)
-// 	{
-// 		if (data->philos[i].eat_count != time->count_to_eat)
-// 			return (0);
-// 		++i;
-// 	}
-// }
+static void	watch(t_data *data, t_time *time)
+{
+	int		i;
+
+	i = 0;
+	while (!data->first_dead)
+	{
+		pthread_mutex_lock(&data->m_life);
+		data->ms_current = get_time() - time->ms_start;
+		if (data->ms_current > data->philos[i].ms_to_die)
+		{
+			if (all_ate(data, time))
+				sleep_ajusted(time->ms_to_eat + time->ms_to_sleep);
+			else
+			{
+				data->first_dead = data->philos[i].num;
+				printf("%lld	%d	is dead\n",
+					 data->ms_current, data->first_dead);
+			}
+			pthread_mutex_unlock(&data->m_life);
+			break ;
+		}
+		i = (i + 1) % data->nb_philos;
+		pthread_mutex_unlock(&data->m_life);
+	}
+}
 
 int	main(int ac, char **av)
 {
 	t_data	data;
 	t_time	time;
-	int		i;
 
 	if (ac < 5 || ac > 6)
 		return (print_error_u("arguments not enough or too much\n"));
-	if (parse(&data, &time, av) == 0 && init(&data, &time) == 0)
+	memset(&data, 0, sizeof(t_data));
+	memset(&time, 0, sizeof(t_time));
+	if (parse(&data, &time, av) == M_SUCCESS && init(&data, &time) == M_SUCCESS)
 	{
-		i = 0;
-		while (!data.first_dead)
-		{
-			pthread_mutex_lock(&data.m_life);
-			data.ms_current = get_time() - time.ms_start;
-			if (data.ms_current > data.philos[i].ms_to_die)
-			{
-				data.first_dead = data.philos[i].num;
-				pthread_mutex_unlock(&data.m_life);
-				break;
-			}
-			i = (i + 1) % data.nb_philos;
-			pthread_mutex_unlock(&data.m_life);
-		}
+		watch(&data, &time);
+		if (all_ate(&data, &time))
+			printf("All philosophers have eaten!\n");
 	}
-	if (all_ate(&data, &time))
-		printf("All philosophers have eaten!\n");
-	else
-		printf("%lld	%d	is dead\n", data.ms_current, data.first_dead);
 	destroy_all(&data);
 	free_all(&data);
-	return (0);
+	return (M_SUCCESS);
 }

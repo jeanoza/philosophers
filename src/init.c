@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 21:58:42 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/26 23:20:57 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ static int	init_threads(t_data *data, t_time *time)
 			return (1);
 		++i;
 	}
-	i = 0;
-	// while (i < data->nb_philos)
-	// 	pthread_join(data->philos[i++].thread, NULL);
 	return (M_SUCCESS);
 }
 

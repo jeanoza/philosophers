@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:35:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 09:03:43 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/26 23:18:16 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	destroy_all(t_data *data)
 	int	i;
 
 	pthread_mutex_destroy(&data->m_display);
+	pthread_mutex_destroy(&data->m_life);
 	i = -1;
 	while (++i < data->nb_philos)
 	{

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/24 17:46:59 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/26 23:33:32 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_time {
 
 typedef struct s_philo {
 	int				num;
+	int				status;
 	int				eat_count;
 	int				ms_to_die;
 	long long		ms_current;
@@ -41,7 +42,6 @@ typedef struct s_philo {
 	struct s_data	*data;
 }	t_philo;
 
-//TODO:free && destroy life;
 typedef struct s_data {
 	int				nb_philos;
 	int				first_dead;
@@ -62,7 +62,6 @@ typedef struct s_data {
 # define COLOR_RED "\033[0;31m"
 # define COLOR_PURPLE "\033[0;35m"
 # define COLOR_DEFAULT "\033[0m"
-
 
 /* utils */
 int			ft_strlen(char *str);
@@ -90,5 +89,4 @@ int			print_error_u(const char *msg);
 int			print_error_i(const char *msg);
 
 void		sleep_ajusted(long long ms);
-// void	sleep_ajusted(long long ms, t_philo *philo);
 #endif

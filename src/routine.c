@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:59:20 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/24 17:42:22 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/26 23:33:48 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	routine(void *param)
 		if (philo->time->count_to_eat
 			&& philo->time->count_to_eat == philo->eat_count)
 			return ;
+		if (philo->eat_count == 0 && philo->num % 2 == 0)
+			sleep_ajusted(philo->time->ms_to_eat);
+		sleep_ajusted(philo->num / 10);
 		r_take_fork(philo);
 		r_eat(philo);
 		r_sleep(philo);

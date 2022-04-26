@@ -17,19 +17,19 @@ void	display(t_philo *philo, char *action)
 	pthread_mutex_lock(philo->m_display);
 	philo->ms_current = get_time() - philo->time->ms_start;
 	if (ft_strcmp(action, MSG_EAT) == 0)
+	{
 		philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
+		philo->eat_count += 1;
+	}
 	if (philo->data->first_dead)
 	{
-		// if (philo->data->first_dead == philo->num)
-		// 	printf("%lld	%d	is dead\n", philo->ms_current, philo->num);
 		pthread_mutex_unlock(philo->m_fork1);
 		pthread_mutex_unlock(philo->m_fork2);
 		pthread_mutex_unlock(philo->m_display);
 		return ;
 	}
 	else
-		// printf("%lld	%d	%s\n", philo->ms_current, philo->num, action);
-	printf("%lld	%d	%s(ms_to_die:%d)	(eat_count:%d) (count_to_eat:%d)\n", philo->ms_current, philo->num, action, philo->ms_to_die, philo->eat_count, philo->time->count_to_eat);
+		printf("%lld	%d	%s\n", philo->ms_current, philo->num, action);
 	pthread_mutex_unlock(philo->m_display);
 }
 
@@ -43,7 +43,6 @@ void	r_take_fork(t_philo *philo)
 
 void	r_eat(t_philo *philo)
 {
-	// philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
 	display(philo, MSG_EAT);
 	sleep_ajusted(philo->time->ms_to_eat);
 	pthread_mutex_unlock(philo->m_fork1);
@@ -59,5 +58,4 @@ void	r_sleep(t_philo *philo)
 void	r_think(t_philo *philo)
 {
 	display(philo, MSG_THINK);
-	philo->eat_count += 1;
 }
