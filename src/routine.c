@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:59:20 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 10:31:38 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/24 17:42:22 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	routine(void *param)
 	t_philo	*philo;
 
 	philo = param;
-	while (!philo->is_dead)
-	// while (philo->data->ms_current < philo->ms_to_die)
-	// while (1)
+	while (!philo->data->first_dead)
 	{
 		if (philo->time->count_to_eat
 			&& philo->time->count_to_eat == philo->eat_count)

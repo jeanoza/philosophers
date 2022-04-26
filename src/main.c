@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 10:47:48 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/24 17:50:28 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	parse(t_data *data, t_time *time, char **av)
 {
 	int	i;
 
+	memset(data, 0, sizeof(t_data));
+	memset(time, 0, sizeof(t_time));
 	if (av[5] && av[5][0] == '0')
 		return (print_error_u("[must_eat_time] cannot be '0' : you know:))"));
 	i = 1;
@@ -85,32 +87,27 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || ac > 6)
 		return (print_error_u("arguments not enough or too much\n"));
-	memset(&data, 0, sizeof(t_data));
-	memset(&time, 0, sizeof(t_time));
 	if (parse(&data, &time, av) == 0 && init(&data, &time) == 0)
 	{
 		i = 0;
 		while (!data.first_dead)
 		{
 			pthread_mutex_lock(&data.m_life);
-			if (all_ate(&data, &time))
-				break ;
 			data.ms_current = get_time() - time.ms_start;
-			data.philos[i].ms_current = data.ms_current;
 			if (data.ms_current > data.philos[i].ms_to_die)
 			{
-				data.philos[i].is_dead = 1;
 				data.first_dead = data.philos[i].num;
-				break ;
+				pthread_mutex_unlock(&data.m_life);
+				break;
 			}
 			i = (i + 1) % data.nb_philos;
 			pthread_mutex_unlock(&data.m_life);
 		}
-		if (data.first_dead)
-			printf("%lld	%d	died\n", data.ms_current, data.first_dead);
-		else
-			printf("All philosophers have eaten!\n");
 	}
+	if (all_ate(&data, &time))
+		printf("All philosophers have eaten!\n");
+	else
+		printf("%lld	%d	is dead\n", data.ms_current, data.first_dead);
 	destroy_all(&data);
 	free_all(&data);
 	return (0);

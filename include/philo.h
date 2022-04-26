@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/23 10:30:09 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/24 17:46:59 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_time {
 
 typedef struct s_philo {
 	int				num;
-	int				is_dead;
 	int				eat_count;
 	int				ms_to_die;
 	long long		ms_current;

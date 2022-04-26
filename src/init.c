@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 09:05:24 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/23 21:58:42 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ int	init(t_data *data, t_time *time)
 	time->ms_start = get_time();
 	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
 	data->m_forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
-	if (data->m_forks == NULL || data->m_forks == NULL)
+	if (data->philos == NULL || data->m_forks == NULL)
 		return (print_error_i("malloc error"));
+	memset(data->philos, 0, sizeof(t_philo) * data->nb_philos);
 	if (init_mutex(data) != M_SUCCESS)
 		return (print_error_i("mutex init"));
 	if (init_threads(data, time) != M_SUCCESS)
