@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/26 23:32:13 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/27 19:19:15 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	parse(t_data *data, t_time *time, char **av)
 	}
 	if (i < 5)
 		return (print_error_u("each args must be numeric more than 0!"));
-	if (ft_atoi(av[1]) >= 200)
+	if (ft_atoi(av[1]) > 200)
 		return (print_error_u("cannot generate more than 200!"));
 	if (ft_atoi(av[1]) == 1)
 		return (one_philo(time->ms_to_die));
