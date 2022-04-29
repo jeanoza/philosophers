@@ -66,11 +66,12 @@ static int	all_ate(t_data *data, t_time *time)
 static void	watch(t_data *data, t_time *time)
 {
 	int		i;
+	// t_philo *philo;
 
 	i = 0;
 	while (!data->first_dead)
 	{
-		pthread_mutex_lock(&data->m_life);
+		pthread_mutex_lock(&data->m_life[i]);
 		data->ms_current = get_time() - time->ms_start;
 		if (data->ms_current > data->philos[i].ms_to_die)
 		{
@@ -78,15 +79,16 @@ static void	watch(t_data *data, t_time *time)
 				sleep_ajusted(time->ms_to_eat + time->ms_to_sleep);
 			else
 			{
+				data->philos[i].is_dead = 1;
 				data->first_dead = data->philos[i].num;
 				printf("%lld	%d	is dead\n",
 					 data->ms_current, data->first_dead);
 			}
-			pthread_mutex_unlock(&data->m_life);
+			// pthread_mutex_unlock(&data->m_life[i]);
 			break ;
 		}
 		i = (i + 1) % data->nb_philos;
-		pthread_mutex_unlock(&data->m_life);
+		pthread_mutex_unlock(&data->m_life[i]);
 	}
 }
 

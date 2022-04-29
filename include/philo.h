@@ -29,7 +29,7 @@ typedef struct s_time {
 
 typedef struct s_philo {
 	int				num;
-	int				status;
+	int				is_dead;
 	int				eat_count;
 	int				ms_to_die;
 	long long		ms_current;
@@ -48,8 +48,8 @@ typedef struct s_data {
 	long long		ms_current;
 	t_philo			*philos;
 	pthread_mutex_t	*m_forks;
-	pthread_mutex_t	m_life;
-	pthread_mutex_t	m_display;
+	pthread_mutex_t	*m_life;
+	pthread_mutex_t	*m_display;
 }	t_data;
 
 # define M_SUCCESS 0

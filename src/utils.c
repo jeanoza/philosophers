@@ -40,7 +40,7 @@ void	sleep_ajusted(long long ms)
 
 	current = get_time();
 	while ((get_time() - current) < ms)
-		usleep(100);
+		usleep(128);
 }
 
 int	ft_atoi(char *str)

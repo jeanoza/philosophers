@@ -17,7 +17,8 @@ void	routine(void *param)
 	t_philo	*philo;
 
 	philo = param;
-	while (!philo->data->first_dead)
+	// while (!philo->data->first_dead)
+	while (!philo->is_dead)
 	{
 		if (philo->time->count_to_eat
 			&& philo->time->count_to_eat == philo->eat_count)

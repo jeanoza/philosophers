@@ -22,10 +22,12 @@ void	display(t_philo *philo, char *action)
 		philo->eat_count += 1;
 	}
 	if (philo->data->first_dead)
+	// if (philo->is_dead)
 	{
 		pthread_mutex_unlock(philo->m_fork1);
 		pthread_mutex_unlock(philo->m_fork2);
 		pthread_mutex_unlock(philo->m_display);
+		pthread_mutex_unlock(philo->m_life);
 		return ;
 	}
 	else

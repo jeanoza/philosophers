@@ -18,21 +18,28 @@ void	free_all(t_data *data)
 		free(data->philos);
 	if (data->m_forks)
 		free(data->m_forks);
+	if (data->m_display)
+		free(data->m_display);
 }
 
 void	destroy_all(t_data *data)
 {
 	int	i;
 
-	pthread_mutex_destroy(&data->m_display);
-	pthread_mutex_destroy(&data->m_life);
+	i = -1;
+	while (++i < data->nb_philos)
+		pthread_join(data->philos[i].thread, NULL);
 	i = -1;
 	while (++i < data->nb_philos)
 	{
-		pthread_join(data->philos[i].thread, NULL);
+		if (data->m_display && &data->m_display[i])
+			pthread_mutex_destroy(&data->m_display[i]);
+		if (data->m_forks && &data->m_life[i])
+			pthread_mutex_destroy(&data->m_life[i]);
 		if (data->m_forks && &data->m_forks[i])
 			pthread_mutex_destroy(&data->m_forks[i]);
 	}
+	// pthread_mutex_destroy(&data->m_life);
 }
 
 int	print_error_u(const char *msg)
