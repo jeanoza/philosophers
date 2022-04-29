@@ -84,8 +84,8 @@ static void	watch(t_data *data, t_time *time)
 				printf("%lld	%d	is dead\n",
 					 data->ms_current, data->first_dead);
 			}
-			// pthread_mutex_unlock(&data->m_life[i]);
 			break ;
+			pthread_mutex_unlock(&data->m_life[i]);
 		}
 		i = (i + 1) % data->nb_philos;
 		pthread_mutex_unlock(&data->m_life[i]);
