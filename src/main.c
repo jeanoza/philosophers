@@ -56,9 +56,14 @@ static int	all_ate(t_data *data, t_time *time)
 		return (0);
 	while (i < data->nb_philos)
 	{
+		// pthread_mutex_lock(&data->m_life[i]);
 		if (data->philos[i].eat_count != time->count_to_eat)
+		{
+			// pthread_mutex_unlock(&data->m_life[i]);
 			return (0);
+		}
 		++i;
+		// pthread_mutex_unlock(&data->m_life[i]);
 	}
 	return (1);
 }
@@ -71,7 +76,7 @@ static void	watch(t_data *data, t_time *time)
 	i = 0;
 	while (!data->first_dead)
 	{
-		pthread_mutex_lock(&data->m_life[i]);
+		// pthread_mutex_lock(&data->m_life[i]);
 		data->ms_current = get_time() - time->ms_start;
 		if (data->ms_current > data->philos[i].ms_to_die)
 		{
@@ -85,10 +90,10 @@ static void	watch(t_data *data, t_time *time)
 					 data->ms_current, data->first_dead);
 			}
 			break ;
-			pthread_mutex_unlock(&data->m_life[i]);
+			// pthread_mutex_unlock(&data->m_life[i]);
 		}
 		i = (i + 1) % data->nb_philos;
-		pthread_mutex_unlock(&data->m_life[i]);
+		// pthread_mutex_unlock(&data->m_life[i]);
 	}
 }
 
