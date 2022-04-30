@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/27 19:19:15 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/30 14:49:00 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,9 @@ static int	all_ate(t_data *data, t_time *time)
 		return (0);
 	while (i < data->nb_philos)
 	{
-		// pthread_mutex_lock(&data->m_life[i]);
 		if (data->philos[i].eat_count != time->count_to_eat)
-		{
-			// pthread_mutex_unlock(&data->m_life[i]);
 			return (0);
-		}
 		++i;
-		// pthread_mutex_unlock(&data->m_life[i]);
 	}
 	return (1);
 }
@@ -76,24 +71,25 @@ static void	watch(t_data *data, t_time *time)
 	i = 0;
 	while (!data->first_dead)
 	{
-		// pthread_mutex_lock(&data->m_life[i]);
+		pthread_mutex_lock(&data->m_life);
 		data->ms_current = get_time() - time->ms_start;
 		if (data->ms_current > data->philos[i].ms_to_die)
 		{
-			if (all_ate(data, time))
-				sleep_ajusted(time->ms_to_eat + time->ms_to_sleep);
-			else
-			{
-				data->philos[i].is_dead = 1;
-				data->first_dead = data->philos[i].num;
-				printf("%lld	%d	is dead\n",
-					 data->ms_current, data->first_dead);
-			}
+			data->philos[i].is_dead = 1;
+			data->first_dead = i + 1;
+			printf("%lld	%d	is dead\n",
+				data->ms_current, data->first_dead);
+			pthread_mutex_unlock(&data->m_life);
 			break ;
-			// pthread_mutex_unlock(&data->m_life[i]);
+		}
+		if (all_ate(data, time))
+		{
+			data->all_ate = 1;
+			pthread_mutex_unlock(&data->m_life);
+			break ;
 		}
 		i = (i + 1) % data->nb_philos;
-		// pthread_mutex_unlock(&data->m_life[i]);
+		pthread_mutex_unlock(&data->m_life);
 	}
 }
 

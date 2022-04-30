@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/26 23:33:32 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/30 14:40:27 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ typedef struct s_philo {
 typedef struct s_data {
 	int				nb_philos;
 	int				first_dead;
+	int				all_ate;
 	long long		ms_current;
 	t_philo			*philos;
 	pthread_mutex_t	*m_forks;
-	pthread_mutex_t	*m_life;
-	pthread_mutex_t	*m_display;
+	pthread_mutex_t	m_life;
+	pthread_mutex_t	m_display;
 }	t_data;
 
 # define M_SUCCESS 0
@@ -78,6 +79,7 @@ void		display(t_philo *philo, char *action);
 
 /* routine.c */
 void		routine(void *param);
+int	current_ate(t_philo *philo);
 
 /* init.c */
 int			init(t_data *data, t_time *time);
