@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 23:21:55 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/30 23:28:02 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	watch(t_data *data, t_time *time)
 	int		i;
 
 	i = 0;
-	while (1)
+	while (data->all_ate == 0)
 	{
 		pthread_mutex_lock(&data->m_life);
 		data->ms_current = get_time() - time->ms_start;
@@ -77,17 +77,13 @@ static void	watch(t_data *data, t_time *time)
 			data->first_dead = i + 1;
 			printf("%lld	%d	is dead\n",
 				data->ms_current, data->first_dead);
+			pthread_mutex_unlock(&data->m_life);
 			break ;
 		}
-		if (all_ate(data, time))
-		{
-			data->all_ate = 1;
-			break ;
-		}
+		data->all_ate = all_ate(data, time);
 		i = (i + 1) % data->nb_philos;
 		pthread_mutex_unlock(&data->m_life);
 	}
-	pthread_mutex_unlock(&data->m_life);
 }
 
 int	main(int ac, char **av)
