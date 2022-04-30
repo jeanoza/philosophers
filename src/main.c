@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 23:28:02 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/30 23:47:07 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,23 @@ static int	parse(t_data *data, t_time *time, char **av)
 {
 	int	i;
 
-	if (av[5] && av[5][0] == '0')
-		return (print_error_u("[must_eat_time] cannot be '0' : you know:))"));
 	i = 0;
-	while (av[++i] && ft_atoi(av[i]) > 0)
+	while (av[++i])
 	{
-		if (i == 2)
-			time->ms_to_die = ft_atoi(av[2]);
-		else if (i == 3)
-			time->ms_to_eat = ft_atoi(av[3]);
-		else if (i == 4)
-			time->ms_to_sleep = ft_atoi(av[4]);
-		else if (i == 5)
-			time->count_to_eat = ft_atoi(av[5]);
+		if (ft_atoi(av[i]) > 0)
+		{
+			if (i == 2)
+				time->ms_to_die = ft_atoi(av[2]);
+			else if (i == 3)
+				time->ms_to_eat = ft_atoi(av[3]);
+			else if (i == 4)
+				time->ms_to_sleep = ft_atoi(av[4]);
+			else if (i == 5)
+				time->count_to_eat = ft_atoi(av[5]);
+		}
+		else
+			return (print_error_u("each args must be numeric more than 0!"));
 	}
-	if (i < 5)
-		return (print_error_u("each args must be numeric more than 0!"));
 	if (ft_atoi(av[1]) > 200)
 		return (print_error_u("cannot generate more than 200!"));
 	if (ft_atoi(av[1]) == 1)
@@ -105,3 +106,19 @@ int	main(int ac, char **av)
 	free_all(&data);
 	return (M_SUCCESS);
 }
+
+// if (av[5] && av[5][0] == '0')
+// 	return (print_error_u("[must_eat_time] cannot be '0' : you know:))"));
+// while (av[++i] && ft_atoi(av[i]) > 0)
+// {
+// 	if (i == 2)
+// 		time->ms_to_die = ft_atoi(av[2]);
+// 	else if (i == 3)
+// 		time->ms_to_eat = ft_atoi(av[3]);
+// 	else if (i == 4)
+// 		time->ms_to_sleep = ft_atoi(av[4]);
+// 	else if (i == 5)
+// 		time->count_to_eat = ft_atoi(av[5]);
+// }
+// if (i < 5)
+// 	return (print_error_u("each args must be numeric more than 0!"));
