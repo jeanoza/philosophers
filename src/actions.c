@@ -14,8 +14,8 @@
 
 void	display(t_philo *philo, char *action)
 {
-	pthread_mutex_lock(philo->m_display);
-	pthread_mutex_lock(philo->m_life);
+	pthread_mutex_lock(&philo->data->m_display);
+	pthread_mutex_lock(&philo->data->m_life);
 	philo->ms_current = get_time() - philo->time->ms_start;
 	if (!(philo->data->first_dead || philo->data->all_ate))
 	{
@@ -26,8 +26,8 @@ void	display(t_philo *philo, char *action)
 			philo->eat_count += 1;
 		}
 	}
-	pthread_mutex_unlock(philo->m_life);
-	pthread_mutex_unlock(philo->m_display);
+	pthread_mutex_unlock(&philo->data->m_life);
+	pthread_mutex_unlock(&philo->data->m_display);
 }
 
 void	r_take_fork(t_philo *philo)

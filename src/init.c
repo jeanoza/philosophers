@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 22:55:47 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/30 23:18:40 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static int	init_threads(t_data *data, t_time *time)
 		philo->num = i + 1;
 		philo->eat_count = 0;
 		philo->ms_to_die = time->ms_to_die;
-		philo->m_display = &data->m_display;
-		philo->m_life = &data->m_life;
 		philo->time = time;
 		philo->data = data;
 		if (pthread_create(&philo->thread, NULL,
