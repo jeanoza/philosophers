@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 14:49:00 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/04/30 23:12:27 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,28 @@ static int	all_ate(t_data *data, t_time *time)
 static void	watch(t_data *data, t_time *time)
 {
 	int		i;
-	// t_philo *philo;
 
 	i = 0;
-	while (!data->first_dead)
+	while (1)
 	{
 		pthread_mutex_lock(&data->m_life);
 		data->ms_current = get_time() - time->ms_start;
-		if (data->ms_current > data->philos[i].ms_to_die)
+		if (data->ms_current >= data->philos[i].ms_to_die)
 		{
-			data->philos[i].is_dead = 1;
 			data->first_dead = i + 1;
 			printf("%lld	%d	is dead\n",
 				data->ms_current, data->first_dead);
-			pthread_mutex_unlock(&data->m_life);
 			break ;
 		}
 		if (all_ate(data, time))
 		{
 			data->all_ate = 1;
-			pthread_mutex_unlock(&data->m_life);
 			break ;
 		}
 		i = (i + 1) % data->nb_philos;
 		pthread_mutex_unlock(&data->m_life);
 	}
+	pthread_mutex_unlock(&data->m_life);
 }
 
 int	main(int ac, char **av)

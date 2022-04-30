@@ -17,12 +17,14 @@ void	display(t_philo *philo, char *action)
 	pthread_mutex_lock(philo->m_display);
 	pthread_mutex_lock(philo->m_life);
 	philo->ms_current = get_time() - philo->time->ms_start;
-	if (!philo->data->first_dead && !philo->data->all_ate)
-		printf("%lld	%d	%s(eat_count:%d)\n", philo->ms_current, philo->num, action, philo->eat_count);
-	if (ft_strcmp(action, MSG_EAT) == 0)
+	if (!(philo->data->first_dead || philo->data->all_ate))
 	{
-		philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
-		philo->eat_count += 1;
+		printf("%lld	%d	%s.\n", philo->ms_current, philo->num, action);
+		if (ft_strcmp(action, MSG_EAT) == 0)
+		{
+			philo->ms_to_die = philo->ms_current + philo->time->ms_to_die;
+			philo->eat_count += 1;
+		}
 	}
 	pthread_mutex_unlock(philo->m_life);
 	pthread_mutex_unlock(philo->m_display);
