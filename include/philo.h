@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/05/01 21:24:07 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 21:34:57 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_philo {
 	int				i_fork2;
 	long long		ms_current;
 	pthread_t		thread;
-	pthread_mutex_t	*m_fork1;
-	pthread_mutex_t	*m_fork2;
+	// pthread_mutex_t	*m_fork1;
+	// pthread_mutex_t	*m_fork2;
 	t_time			*time;
 	struct s_data	*data;
 }	t_philo;
