@@ -15,8 +15,8 @@ OBJS		=	$(addprefix $(OBJ_PATH), $(SRCS:.c=.o))
 
 CC			=	gcc
 
-CFLAGS		=	-Wall -Werror -Wextra -g3 -fsanitize=thread
-# CFLAGS		=	-Wall -Werror -Wextra -pthread
+# CFLAGS		=	-Wall -Werror -Wextra -g3 -fsanitize=thread
+CFLAGS		=	-Wall -Werror -Wextra -pthread
 
 CFLAGS_FSAN	=	#-Wall -Werror -Wextra -g3 -fsanitize=thread
 

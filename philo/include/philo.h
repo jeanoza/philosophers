@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/05/01 22:17:22 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 22:33:34 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ typedef struct s_data {
 	pthread_mutex_t	*m_forks;
 	pthread_mutex_t	m_life;
 }	t_data;
+
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
 
 # define M_SUCCESS 0
 

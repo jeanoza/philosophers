@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 16:11:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 23:44:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 23:08:50 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,11 @@ void	sleep_ajusted(long long ms)
 		usleep(128);
 }
 
-
-//TODO: atoi max int(manage overflow)
-// long res,
-// return error if res > MAX_INT or res <MIN_INT
 int	ft_atoi(char *str)
 {
-	int	res;
-	int	sign;
-	int	i;
+	long	res;
+	int		sign;
+	int		i;
 
 	i = 0;
 	sign = 1;
@@ -64,7 +60,13 @@ int	ft_atoi(char *str)
 	}
 	while (str && str[i] && str[i] >= '0' && str[i] <= '9' )
 		res = (10 * res) + (str[i++] - '0');
-	return (sign * res);
+	res = (sign * res);
+	if (res >= INT_MAX || res <= INT_MIN)
+	{
+		printf("!! MAX_INT or STUPID_NUM can cause overflow on time stamp !!\n");
+		return (-42);
+	}
+	return ((int) res);
 }
 
 long long	get_time(void)

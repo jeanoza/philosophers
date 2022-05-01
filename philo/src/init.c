@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/05/01 22:17:04 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 22:30:37 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static int	init_mutex(t_data *data)
 {
 	int		i;
 
-	// if (pthread_mutex_init(&data->m_life, NULL)
-	// 	|| pthread_mutex_init(&data->m_display, NULL))
 	if (pthread_mutex_init(&data->m_life, NULL))
 		return (1);
 	i = -1;
