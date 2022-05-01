@@ -43,6 +43,10 @@ void	sleep_ajusted(long long ms)
 		usleep(128);
 }
 
+
+//TODO: atoi max int(manage overflow)
+// long res,
+// return error if res > MAX_INT or res <MIN_INT
 int	ft_atoi(char *str)
 {
 	int	res;

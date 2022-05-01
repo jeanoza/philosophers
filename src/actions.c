@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+//TODO:use index au lieu de p_mutex
+//TODO: test with valgrind --tool=helgrind
+
 void	display(t_philo *philo, char *action)
 {
 	pthread_mutex_lock(&philo->data->m_display);
