@@ -17,6 +17,8 @@ void	routine(void *param)
 	t_philo	*philo;
 
 	philo = param;
+	if (philo->eat_count == 0 && philo->num % 2 == 0)
+		sleep_ajusted(philo->time->ms_to_eat / 1.3333);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->m_life);
@@ -29,8 +31,6 @@ void	routine(void *param)
 		if (philo->time->count_to_eat
 			&& philo->time->count_to_eat == philo->eat_count)
 			return ;
-		if (philo->eat_count == 0 && philo->num % 2 == 0)
-			sleep_ajusted(philo->time->ms_to_eat);
 		r_take_fork(philo);
 		r_eat(philo);
 		r_sleep(philo);
