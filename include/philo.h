@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:05:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/04/30 23:18:00 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 21:24:07 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_philo {
 	int				num;
 	int				eat_count;
 	int				ms_to_die;
+	int				i_fork1;
+	int				i_fork2;
 	long long		ms_current;
 	pthread_t		thread;
 	pthread_mutex_t	*m_fork1;

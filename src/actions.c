@@ -17,7 +17,7 @@
 
 void	display(t_philo *philo, char *action)
 {
-	pthread_mutex_lock(&philo->data->m_display);
+	// pthread_mutex_lock(&philo->data->m_display);
 	pthread_mutex_lock(&philo->data->m_life);
 	philo->ms_current = get_time() - philo->time->ms_start;
 	if (!(philo->data->first_dead || philo->data->all_ate))
@@ -30,13 +30,13 @@ void	display(t_philo *philo, char *action)
 		}
 	}
 	pthread_mutex_unlock(&philo->data->m_life);
-	pthread_mutex_unlock(&philo->data->m_display);
+	// pthread_mutex_unlock(&philo->data->m_display);
 }
 
 void	r_take_fork(t_philo *philo)
 {
-	pthread_mutex_lock(philo->m_fork1);
-	pthread_mutex_lock(philo->m_fork2);
+	pthread_mutex_lock(&philo->data->m_forks[philo->i_fork1]);
+	pthread_mutex_lock(&philo->data->m_forks[philo->i_fork2]);
 	display(philo, MSG_FORKS);
 	display(philo, MSG_FORKS);
 }
@@ -45,8 +45,8 @@ void	r_eat(t_philo *philo)
 {
 	display(philo, MSG_EAT);
 	sleep_ajusted(philo->time->ms_to_eat);
-	pthread_mutex_unlock(philo->m_fork1);
-	pthread_mutex_unlock(philo->m_fork2);
+	pthread_mutex_unlock(&philo->data->m_forks[philo->i_fork1]);
+	pthread_mutex_unlock(&philo->data->m_forks[philo->i_fork2]);
 }
 
 void	r_sleep(t_philo *philo)

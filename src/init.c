@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 23:18:40 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 21:26:19 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static int	init_mutex(t_data *data)
 	while (++i < data->nb_philos)
 	{
 		philo = &data->philos[i];
-		philo->m_fork1 = &data->m_forks[i];
-		philo->m_fork2 = &data->m_forks[(i + 1) % data->nb_philos];
+		philo->i_fork1 = i;
+		philo->i_fork2 = (i + 1) % data->nb_philos;
+		// philo->m_fork1 = &data->m_forks[i];
+		// philo->m_fork2 = &data->m_forks[(i + 1) % data->nb_philos];
 	}
 	return (M_SUCCESS);
 }
