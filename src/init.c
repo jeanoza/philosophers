@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:57:10 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/05/01 21:34:46 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 22:17:04 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,17 @@
 
 static int	init_mutex(t_data *data)
 {
-	t_philo	*philo;
 	int		i;
 
-	if (pthread_mutex_init(&data->m_life, NULL)
-		|| pthread_mutex_init(&data->m_display, NULL))
+	// if (pthread_mutex_init(&data->m_life, NULL)
+	// 	|| pthread_mutex_init(&data->m_display, NULL))
+	if (pthread_mutex_init(&data->m_life, NULL))
 		return (1);
 	i = -1;
 	while (++i < data->nb_philos)
 	{
 		if (pthread_mutex_init(&data->m_forks[i], NULL))
 			return (1);
-	}
-	i = -1;
-	while (++i < data->nb_philos)
-	{
-		philo = &data->philos[i];
-		philo->i_fork1 = i;
-		philo->i_fork2 = (i + 1) % data->nb_philos;
-		// philo->m_fork1 = &data->m_forks[i];
-		// philo->m_fork2 = &data->m_forks[(i + 1) % data->nb_philos];
 	}
 	return (M_SUCCESS);
 }
@@ -52,6 +43,8 @@ static int	init_threads(t_data *data, t_time *time)
 		philo->ms_to_die = time->ms_to_die;
 		philo->time = time;
 		philo->data = data;
+		philo->i_fork1 = i;
+		philo->i_fork2 = (i + 1) % data->nb_philos;
 		if (pthread_create(&philo->thread, NULL,
 				(void *)&routine, (void *) philo) != M_SUCCESS)
 			return (1);

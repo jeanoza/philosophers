@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:59:20 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/05/01 21:28:02 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 22:14:17 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	routine(void *param)
 	t_philo	*philo;
 
 	philo = param;
-	if (philo->eat_count == 0 && philo->num % 2 == 0)
-		sleep_ajusted(philo->time->ms_to_eat / 1.3333);
+	if (philo->num % 2 == 0)
+		sleep_ajusted(philo->time->ms_to_eat / 2);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->m_life);

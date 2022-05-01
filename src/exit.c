@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:35:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/30 13:51:30 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/01 22:15:57 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	destroy_all(t_data *data)
 		if (data->m_forks && &data->m_forks[i])
 			pthread_mutex_destroy(&data->m_forks[i]);
 	}
-	pthread_mutex_destroy(&data->m_display);
 	pthread_mutex_destroy(&data->m_life);
 }
 
