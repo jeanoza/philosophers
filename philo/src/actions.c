@@ -6,14 +6,11 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/04/23 21:37:40kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/05/05 15:22:44 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-//TODO:use index au lieu de p_mutex
-//TODO: test with valgrind --tool=helgrind
 
 void	display(t_philo *philo, char *action)
 {
