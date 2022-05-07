@@ -106,3 +106,10 @@ int	main(int ac, char **av)
 	free_all(&data);
 	return (M_SUCCESS);
 }
+
+/* 
+this protection will be useful for the stupid case
+As function exit() is not autorized, i can't wake thread sleeping...
+if (time->ms_to_die < time->ms_to_eat || time->ms_to_die < time->ms_to_sleep)
+	return (print_error_u("(ms_to_eat | ms_to_sleep) > ms_to_die"));
+*/

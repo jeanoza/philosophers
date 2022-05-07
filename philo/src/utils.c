@@ -61,11 +61,8 @@ int	ft_atoi(char *str)
 	while (str && str[i] && str[i] >= '0' && str[i] <= '9' )
 		res = (10 * res) + (str[i++] - '0');
 	res = (sign * res);
-	if (res >= INT_MAX || res <= INT_MIN)
-	{
-		printf("!! MAX_INT or STUPID_NUM can cause overflow on time stamp !!\n");
+	if (res > INT_MAX || res < INT_MIN)
 		return (-42);
-	}
 	return ((int) res);
 }
 

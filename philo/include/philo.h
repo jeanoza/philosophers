@@ -21,18 +21,18 @@
 
 typedef struct s_time {
 	long long	ms_start;
-	int			ms_to_die;
-	int			ms_to_eat;
-	int			ms_to_sleep;
+	long long	ms_to_die;
+	long long	ms_to_eat;
+	long long	ms_to_sleep;
 	int			count_to_eat;
 }	t_time;
 
 typedef struct s_philo {
 	int				num;
 	int				eat_count;
-	int				ms_to_die;
 	int				i_fork1;
 	int				i_fork2;
+	long long		ms_to_die;
 	long long		ms_current;
 	pthread_t		thread;
 	t_time			*time;
