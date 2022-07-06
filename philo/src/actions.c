@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:36:34 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/05/05 15:22:44 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/06 17:56:41 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,16 @@ void	display(t_philo *philo, char *action)
 
 void	r_take_fork(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->m_forks[philo->i_fork1]);
-	pthread_mutex_lock(&philo->data->m_forks[philo->i_fork2]);
+	if (philo->num % 2 == 0)
+	{
+		pthread_mutex_lock(&philo->data->m_forks[philo->i_fork1]);
+		pthread_mutex_lock(&philo->data->m_forks[philo->i_fork2]);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->data->m_forks[philo->i_fork2]);
+		pthread_mutex_lock(&philo->data->m_forks[philo->i_fork1]);
+	}
 	display(philo, MSG_FORKS);
 	display(philo, MSG_FORKS);
 }
