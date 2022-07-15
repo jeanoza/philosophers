@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 09:26:18 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/05/01 22:38:17 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/15 21:05:16 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void	watch(t_data *data, t_time *time)
 		data->all_ate = all_ate(data, time);
 		i = (i + 1) % data->nb_philos;
 		pthread_mutex_unlock(&data->m_life);
+		usleep(2500);
 	}
 }
 
